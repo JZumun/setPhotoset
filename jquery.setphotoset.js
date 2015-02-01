@@ -8,8 +8,8 @@ $.fn.setPhotoset = function(options) {
 						/*set to true if initial height and width data for all children are provided using data attributes set bychildHeight and childWidth.
 						False if height and width of children are unknown. This function must then be run only when the images have been fully loaded
 								*/
-		childHeight: 'data-height',
-		childWidth: 'data-width',
+		childHeight: 'height',
+		childWidth: 'width',
 	},options);
 	var l,m,n,x,y,z;
 	var a = [], b = [];
