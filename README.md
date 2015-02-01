@@ -1,2 +1,4 @@
-# set-photoset
-JQuery Plugin for Dynamic, Proportional Resizing of Images in a Photoset
+# setPhotoset
+JQuery Plugin / Javascript Function for Dynamic, Proportional Resizing of Images in a Photoset
+
+
