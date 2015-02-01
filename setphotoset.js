@@ -2,10 +2,8 @@ function setPhotoset (identifier,userOptions) {
 	/*User Options extending default settings*/
 	userOptions = userOptions || {};
 	var settings = {
-		layout: 0,			
-								/*sets layout of photoset. If zero, acquires info from data-layout attribute if existing. else the function does nothing*/
-		pData:	false,	
-								/*set to true if initial height and width data for all children are provided using data attributes set by childHeight and childWidth. False if height and width of children are unknown. This function must then be run only when the images have been fully loaded*/
+		layout: 0,	/*sets layout of photoset. If zero, acquires info from data-layout attribute if existing. else the function does nothing*/
+		pData:	false,	/*set to true if initial height and width data for all children are provided using data attributes set by childHeight and childWidth. False if height and width of children are unknown. This function must then be run only when the images have been fully loaded*/
 		childHeight: 'height',
 		childWidth: 'width'
 	};
