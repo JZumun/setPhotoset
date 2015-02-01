@@ -1,20 +1,29 @@
 ;(function( $ ){
 $.fn.setPhotoset = function(options) {
+	/*User Options extending default settings*/
 	var settings = $.extend({},{
-		layout: 'data-layout',
+		layout: 0,
+						/*sets layout of photoset. If zero, acquires info from data-layout attribute if existing. else the function does nothing*/
 		pData:	true,
+						/*set to true if initial height and width data for all children are provided using data attributes set bychildHeight and childWidth.
+						False if height and width of children are unknown. This function must then be run only when the images have been fully loaded
+								*/
 		childHeight: 'data-height',
 		childWidth: 'data-width',
 	},options);
 	var l,m,n,x,y,z;
 	var a = [], b = [];
+	
+	/*iterating per photoset container*/
     $.each(this, function () {
-		var lay = $(this).attr(settings.layout);
-		m=0;l=0;
+		$(this).children().css('float','left');
+		var lay = layout || $(this).attr("data-layout") || "";
+		m=0;l=0;		
+		
+		/*children are handled by rows*/
 		for (n=0;n<lay.length;n++) {
 			x = parseInt(lay.charAt(n));
 			for (y=0;y<x;y++) {
-				$(this).children().eq(m).css('float','left')
 				if(y==0) {$(this).children().eq(m).css('clear','left')};
 				m++};
 			if (settings.pData) {
