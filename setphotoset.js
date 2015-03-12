@@ -1,5 +1,5 @@
 function setPhotoset (identifier,userOptions) {
-	/*User Options extending default settings*/
+/*User Options extending default settings*/
 	userOptions = userOptions || {};
 	var settings = {
 		layout: 0,	/*sets layout of photoset. If zero, acquires info from data-layout attribute if existing. else the function does nothing*/
@@ -11,6 +11,8 @@ function setPhotoset (identifier,userOptions) {
 		if (userOptions.hasOwnProperty(key))
 			settings[key] = userOptions[key];
 	}
+
+
 	/*Iterating per element that matches identifier*/
 	var psets = document.querySelectorAll(identifier);
 	Array.prototype.forEach.call(psets, function (set,i) {
@@ -20,44 +22,52 @@ function setPhotoset (identifier,userOptions) {
 		var x,y;
 		var a = [], b = []		
 		
-		/*Children are handled by rows*/
-		for (x = 0; x<lay.length; x++) {
-			cLay = parseInt(lay.charAt(x));
-			
-			/* Floats children to the left. First of every row gets clear: left */
-			for (y = 0 ; y < cLay; y++) {
-				els[cEl].style.float = "left";
-				if (y==0) els[cEl].style.clear = "left";
-				cEl++;
-			}
-			
-			/*stores aspect ratios of elements in an array a*/
-			for ( y = 0 ; y < cLay ; y++) {
-				if (settings.pData) {
-					a[y] = parseInt(els[cOff+y].getAttribute(settings.childHeight)) / parseInt(els[cOff+y].getAttribute(settings.childWidth));
+		/*We define the actual functionality inside a function so that we can attach it to an event handler if pData is false*/
+		function setInnerFunction () {
+			/*Children are handled by rows*/
+			for (x = 0; x<lay.length; x++) {
+				cLay = parseInt(lay.charAt(x));
+				
+				/* Floats children to the left. First of every row gets clear: left */
+				for (y = 0 ; y < cLay; y++) {
+					els[cEl].style.float = "left";
+					if (y==0) els[cEl].style.clear = "left";
+					cEl++;
+				}
+				
+				/*stores aspect ratios of elements in an array a*/
+				for ( y = 0 ; y < cLay ; y++) {
+					if (settings.pData) {
+						a[y] = parseInt(els[cOff+y].getAttribute(settings.childHeight)) / parseInt(els[cOff+y].getAttribute(settings.childWidth));
+						}
+					else {
+						a[y] = els[cOff+y].height/els[cOff+y].width;
 					}
-				else {
-					a[y] = els[cOff+y].offsetHeight/els[cOff+y].offsetWidth;
 				}
+				
+				/*calculates percentage width of children*/
+				for (y = 0; y < cLay; y++) {
+					if (y==0) {
+						for(k = 0, z = 0; z < cLay; z++) { k += (a[0]/a[z])}
+						b[y] = 100/k;
+					}
+					else if (y==cLay-1) {
+						for(k = 0, z = 0; z < cLay-1; z++) { k += b[z]}
+						b[y] = 100 - k;
+					}
+					else {
+						b[y] = b[0]*(a[0]/a[y]);
+					}
+					els[cOff+y].style.width = b[y] + "%";
+				}
+				cOff += cLay;
 			}
-			
-			/*calculates percentage width of children*/
-			for (y = 0; y < cLay; y++) {
-				if (y==0) {
-					for(k = 0, z = 0; z < cLay; z++) { k += (a[0]/a[z])}
-					b[y] = 100/k;
-				}
-				else if (y==cLay-1) {
-					for(k = 0, z = 0; z < cLay-1; z++) { k += b[z]}
-					b[y] = 100 - k;
-				}
-				else {
-					b[y] = b[0]*(a[0]/a[y]);
-				}
-				els[cOff+y].style.width = b[y] + "%";
-			}
-			cOff += cLay;
 		}
+
+		/*setInnerFunction Triggers automatically if pData is true*/
+		if (pData) setInnerFunction();
+		else set.addEventListener("load",setInnerFunction);
+		
 		
 	});
 	
