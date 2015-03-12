@@ -41,7 +41,7 @@ function setPhotoset (identifier,userOptions) {
 						a[y] = parseInt(els[cOff+y].getAttribute(settings.childHeight)) / parseInt(els[cOff+y].getAttribute(settings.childWidth));
 						}
 					else {
-						a[y] = els[cOff+y].height/els[cOff+y].width;
+						a[y] = els[cOff+y].offsetHeight/els[cOff+y].offsetWidth;
 					}
 				}
 				
