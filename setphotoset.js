@@ -1,4 +1,4 @@
-;var setPhotoSet = function (elements,userOptions) {
+;function setPhotoset(elements,userOptions) {
 	/*User Options extending default settings*/
 	userOptions = userOptions || {};
 	var settings = {
