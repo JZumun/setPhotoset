@@ -1,4 +1,4 @@
-;function setPhotoset(elements,userOptions) {
+;var setPhotoSet = function (elements,userOptions) {
 	/*User Options extending default settings*/
 	userOptions = userOptions || {};
 	var settings = {
@@ -13,8 +13,9 @@
 	}
 
 
-	/*Iterating per element that matches element*/
-	Array.prototype.forEach.call(elements, function (set,i) {
+	/*Iterating per element*/
+	var pSet = (elements.length) ? elements : [elements];
+	Array.prototype.forEach.call(pSet, function (set,i) {
 		var lay = settings.layout || set.getAttribute("data-layout") || "";
 		var els = set.children;
 		var cLay, cOff = 0, cEl = 0;
@@ -39,8 +40,10 @@
 					a[y] = parseInt(els[cOff+y].getAttribute(settings.childHeight)) / parseInt(els[cOff+y].getAttribute(settings.childWidth));
 					}
 				else {
-					if (els[cOff+y].naturalWidth) a[y] = els[cOff+y].naturalHeight/els[cOff+y].naturalWidth;
-					else a[y] = els[cOff+y].offsetHeight/els[cOff+y].offsetWidth;
+					if (els[cOff+y].naturalWidth) 
+						a[y] = els[cOff+y].naturalHeight/els[cOff+y].naturalWidth;
+					else 
+							a[y] = els[cOff+y].offsetHeight/els[cOff+y].offsetWidth;
 				}
 			}
 			
