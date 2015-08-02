@@ -1,0 +1,30 @@
+/*
+	Sample CSS for a photoset.
+		Notes:
+			1. floating is used to layout the photoset items.
+			2. the margin applied to .photoset-item should match the gutter set using the function. 
+					In this example, gutters are 5px; Note that right and bottom margins are 5px, while top and left margins are set to 0.
+			3. right margins are reset at the last images per row, and bottom margins are reset for the last row.
+			4. Not actually very necessary if set-photoset does its job correctly :)
+
+*/
+
+.photoset-item {
+	display: block;		
+	float: left;		/*[1]*/
+	margin: 5px;		/*[2]*/
+	margin-left: 0;
+	margin-top: 0;
+}
+
+.photoset-last-column {
+	margin-right:0;		/*[3]*/
+}
+
+.photoset-last-column + .photoset-item {
+	clear:left;			/*[4]*/
+}
+
+.photoset-last-row {
+	margin-bottom:0;	/*[3]*/
+}
