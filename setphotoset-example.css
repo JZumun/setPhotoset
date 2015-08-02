@@ -6,6 +6,7 @@
 					In this example, gutters are 5px; Note that right and bottom margins are 5px, while top and left margins are set to 0.
 			3. right margins are reset at the last images per row, and bottom margins are reset for the last row.
 			4. Not actually very necessary if set-photoset does its job correctly :)
+			5. If the image is nested within .photoset-item (and not .photoset-item itself), it needs to expand to fill its container.
 
 */
 
@@ -28,3 +29,8 @@
 .photoset-last-row {
 	margin-bottom:0;	/*[3]*/
 }
+
+.photoset-item > * {
+	width:100%;			/*[5]*/
+}
+
