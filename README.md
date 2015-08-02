@@ -42,5 +42,13 @@
 	margin-bottom:0;	
 }
 </code></pre>
+<h3>userOptions</h3>
+| userOptions        | type           | default  | description |
+| ------------- |:-------------:| -----:| ---- |
+| layout     | string | "" | lists the number of items per row. e.g "121" |
+| pData      | boolean      |   false | set to true if height and width data are available in the html |
+| childHeight | string      |    "height" | name of attribute on each item that lists item's height. |
+| childWidth | string      |    "width" | name of attribute on each item that lists item's width. |
+| gutter | string | "" | CSS length value of desired margin between items. Does not set this margin. |
 <h3>Examples</h3>
 <p>For examples, visit this <a href="http://jzumun.tumblr.com/set-photoset">demo page</a>.</p>
