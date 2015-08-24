@@ -1,16 +1,15 @@
 <h1>setPhotoset</h1>
-<p>JQuery Plugin / Javascript Function for Dynamic, Proportional Resizing of Images in a Photoset</p>
-<p><strong><code>setPhotoset</code></strong> is a javascript function/jquery plugin for beautifully resizing images in a photoset, without cropping or aspect-ratio distortion, such that all images in a row are of the same height. [<a href="https://github.com/JZumun/setPhotoset"
-    target="_blank">Github</a>]&nbsp;</p>
-<h2><strong>Basic Usage</strong></h2>
-<p><span style="line-height: 19.6000003814697px;"><span style="line-height: 19.6000003814697px;">The general format of&nbsp;</span><code style="line-height: 19.6000003814697px;">setPhotoset</code><span style="line-height: 19.6000003814697px;">&nbsp;is shown below:</span></span>
-</p>
-<pre><code>/* Javascript *<br />window.addEventListener("load",function() {<br />&nbsp;&nbsp;&nbsp;&nbsp;setPhotoset(<em>element,userOptions</em>);<br />});<br /><br /> /* JQuery */ <br />$(window).load(function() {<br />&nbsp;&nbsp;&nbsp;&nbsp;$(<em>element).setPhotoset(<em>userOptions</em>);<br />});<br /></em>/</code></pre>
-<p>In both cases,&nbsp;<em>element&nbsp;</em>refers to the element node (or nodelist of elements) that contain your photoset, while&nbsp;<em>userOptions</em> is an object containing customizable options for the function (more info below).&nbsp;</p>
-<p><span style="line-height: 19.6000003814697px; font-family: monospace;">setPhotoset</span><span style="line-height: 19.6000003814697px;">&nbsp;makes use of&nbsp;</span><span style="line-height: 19.6000003814697px;">&nbsp;img.naturalWidth and naturalHeight to automatically get dimensional information from the images. Because of this, the function is best called inside a window load event handler. However, if the height and width attribute of the images are provided in the markup,&nbsp;</span>
-    <span style="line-height: 19.6000003814697px; font-family: monospace;">setPhotoset</span><span style="line-height: 19.6000003814697px;">&nbsp;</span><span style="line-height: 19.6000003814697px;">can be called outside an onload event handler in the following manner:</span>
-</p>
-<pre><code>/* Javascript */<br />setPhotoset(<em>element,</em>{pData:true,<em> userOptions</em>});<br /><br /> /* JQuery */ <br />$(<em>element).</em>setPhotoset<em>(</em>{pData:true,<em>userOptions</em>}<em>);</em></code></pre>
+<p><strong><code>jzmn.setPhotoset</code></strong> is a javascript function for beautifully resizing images in a photoset, without cropping or aspect-ratio distortion, such that all images in a row are of the same height. <code>jzmn.setPhotoset</code> makes use of percentage widths, so that the photoset can work for all sizes, and can be resized without problem. [<a href="https://github.com/JZumun/jzmn.setPhotoset" target="_blank">Github</a>]</p>
+<p>Like most of my coding experiments, it is encapsulated in the <code>jzmn</code> namespace. This largely means nothing.</p>
+<h2>Basic Usage</h2>
+<p>The general format of <code>jzmn.setPhotoset</code> is shown below:</p>
+<pre><code>window.addEventListener("load",function() {
+    jzmn.setPhotoset(<em>element,userOptions</em>);
+});
+</code></pre>
+<p><em>element</em>refers to the element node (or nodelist of elements) that contains the photoset, while <em>userOptions</em> is an object containing customizable options for the function (more info below).</p>
+<p><code>jzmn.setPhotoset</code> makes use of img.naturalWidth and naturalHeight to automatically get dimensional information from the images. Because of this, the function is best called inside a window load event handler. However, if the height and width attribute of the images are provided in the markup, <code>jzmn.setPhotoset</code> can be called outside an onload event handler in the following manner:</p>
+<pre><code>jzmn.setPhotoset(<em>element,</em>{pData:true,<em> userOptions</em>});</code></pre>
 <h2>The CSS</h2>
 <p><code>setPhotoset</code> only sets the widths of the elements in the photoset using javascript. The rest of the styling is delegated to CSS, by means of attaching classes to each photoset elements.</p>
 <p><code>setPhotoset</code> provides the following classes for styling hooks:

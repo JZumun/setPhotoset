@@ -1,4 +1,5 @@
-;function setPhotoset(elements,userOptions) {
+;var jzmn = jzmn || {};
+jzmn.setPhotoset = function (elements,userOptions) {
 
 	/* Throws exception if elements don't exist */
 	if (!elements) throw new Error("[setPhotoset] Element does not exist");
