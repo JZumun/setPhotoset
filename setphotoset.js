@@ -19,6 +19,7 @@ jzmn.setPhotoset = function (elements,userOptions) {
 
 	/*Iterating per element*/
 	var pSet = (elements.length) ? elements : [elements];
+
 	Array.prototype.forEach.call(pSet, function (set,i) {
 		var setLayout = settings.layout || set.getAttribute("data-layout") || "";
 		var items = set.children;
@@ -51,7 +52,7 @@ jzmn.setPhotoset = function (elements,userOptions) {
 						aspects[j] = items[currOffset+j].offsetHeight/items[currOffset+j].offsetWidth;
 				}
 			}
-			
+			console.log(aspects);
 			/*	
 				calculates percentage width of children, stored in array j
 				If settings.gutter is nonzero, takes gutter to account using calc() 
@@ -69,8 +70,9 @@ jzmn.setPhotoset = function (elements,userOptions) {
 				else {
 					widths[j] = widths[0]*(aspects[0]/aspects[j]);
 				}
-				items[currOffset+j].setAttribute("style","width: " + widths[j] + "%; " + ( settings.gutter ? "width: calc(" + widths[j]/100 + "*(100% - " + (currLayout - 1) + "*(" + settings.gutter + ")))" : "" ));
+				console.log("setting widths " + layoutIndex + "." + j + " to " + widths[j]);
 			}
+			console.log(widths);
 
 			/*Updates currOffset for next row*/
 			currOffset += currLayout;
