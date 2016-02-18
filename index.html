@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Setphotoset by JZumun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Setphotoset</h1>
+      <h2 class="project-tagline">Javascript Function for Dynamic, Proportional Resizing of Images in a Photoset</h2>
+      <a href="https://github.com/JZumun/setPhotoset" class="btn">View on GitHub</a>
+      <a href="https://github.com/JZumun/setPhotoset/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/JZumun/setPhotoset/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <p><strong><code>jzmn.setPhotoset</code></strong> is a javascript function for beautifully resizing images in a photoset, without cropping or aspect-ratio distortion, such that all images in a row are of the same height.<code>jzmn.setPhotoset</code> makes use of percentage widths, so that the photoset can work for all sizes, and can be resized without problem.</p>
+
+<p>Like most of my coding experiments, it is encapsulated in the <code>jzmn</code> namespace. This largely means nothing.</p>
+
+<h2>
+<a id="basic-usage" class="anchor" href="#basic-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basic Usage</h2>
+
+<p>The general format of <code>jzmn.setPhotoset</code> is shown below:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">jzmn</span>.<span class="pl-en">setPhotoset</span>(element,userOptions,grouping)</pre></div>
+
+<p><em><code>element</code></em> refers to the element node, nodelist of elements, or CSS-selector string of the photosets you want to set. </p>
+
+<p><em><code>userOptions</code></em> is an optional object containing customizable options for the function (listed below).</p>
+
+<p><em><code>grouping</code></em> is an optional CSS-selector-friendly string meant to group photosets together in a class for similar styling. If set, gives the photoset elements a class 'photoset-<em>grouping</em>'. Will be randomly generated if not set.</p>
+
+<h2>
+<a id="user-options" class="anchor" href="#user-options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>User Options</h2>
+
+<table>
+<thead>
+<tr>
+<th>userOptions</th>
+<th align="center">type</th>
+<th align="right">default</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>layout</td>
+<td align="center">string OR [number]</td>
+<td align="right">0</td>
+<td>defines layout of photoset (number of items per row. e.g "121" or [1,2,1]). If falsey, layout information is aquired from data-layout attribute if existing, or else nothing happens.</td>
+</tr>
+<tr>
+<td>immediate</td>
+<td align="center">boolean</td>
+<td align="right">false</td>
+<td>boolean determining whether to immediately invoke function. If false, waits for all IMG children to load before executing layout application (no other <code>childItem</code> is supported). If true immediately applies layout, making use of height and width data provided in the attributes defined in <code>childHeight</code> and <code>childWidth</code> of <code>childItems</code>.</td>
+</tr>
+<tr>
+<td>childItem</td>
+<td align="center">string</td>
+<td align="right">"img"</td>
+<td>CSS-selector string that determines which children inside element is used to create grid. If set to something other than "img", <code>immediate</code> must be set to true and <code>childHeight</code> and <code>childWidth</code> be set appropriately.</td>
+</tr>
+<tr>
+<td>childHeight</td>
+<td align="center">string</td>
+<td align="right">"height"</td>
+<td>name of attribute on each childItem that lists item's height.</td>
+</tr>
+<tr>
+<td>childWidth</td>
+<td align="center">string</td>
+<td align="right">"width"</td>
+<td>name of attribute on each childItem that lists item's width.</td>
+</tr>
+<tr>
+<td>callback</td>
+<td align="center">function</td>
+<td align="right">null</td>
+<td>function to execute after a photoset has been worked on. takes photoset DOM element as argument.</td>
+</tr>
+<tr>
+<td>gutter</td>
+<td align="center">number OR string</td>
+<td align="right">0</td>
+<td>value that sets spacing between items. If string, must be usable inside calc(). If a number, is set in px.</td>
+</tr>
+<tr>
+<td>createSheet</td>
+<td align="center">boolean</td>
+<td align="right">true</td>
+<td>boolean determining whether a stylesheet is to be created containing the styling required for layouting (if it doesn't yet exist). Set to false if you wish to supply your own stylesheet. See setphotoset-example.css for sample.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h2>
+
+<p>For examples, visit this <a href="http://jzumun.tumblr.com/set-photoset">demo page</a></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/JZumun/setPhotoset">Setphotoset</a> is maintained by <a href="https://github.com/JZumun">JZumun</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
