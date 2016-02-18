@@ -8,7 +8,7 @@ Basic Usage
 -----------
 The general format of `jzmn.setPhotoset` is shown below:
 ```javascript
-jzmn.setPhotoset(*element*,*userOptions*,*grouping*)
+jzmn.setPhotoset(element,userOptions,grouping)
 ```
 `*element*` refers to the element node, nodelist of elements, or CSS-selector string of the photosets you want to set. 
 `*userOptions*` is an optional object containing customizable options for the function (listed below).
