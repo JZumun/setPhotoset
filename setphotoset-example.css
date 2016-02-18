@@ -22,10 +22,6 @@
 	margin-right:0;		/*[3]*/
 }
 
-.photoset-last-column + .photoset-item {
-	clear:left;			/*[4]*/
-}
-
 .photoset-last-row {
 	margin-bottom:0;	/*[3]*/
 }
