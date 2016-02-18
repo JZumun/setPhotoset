@@ -11,7 +11,9 @@ The general format of `jzmn.setPhotoset` is shown below:
 jzmn.setPhotoset(element,userOptions,grouping)
 ```
 *`element`* refers to the element node, nodelist of elements, or CSS-selector string of the photosets you want to set. 
+
 *`userOptions`* is an optional object containing customizable options for the function (listed below).
+
 *`grouping`* is a CSS-selector-friendly string meant to group photosets together in a class for similar styling. If set, gives the photoset elements a class 'photoset-*grouping*'. Will be randomly generated if not set.
 
 User Options
