@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
-    <title>Setphotoset by JZumun</title>
+    <title>setPhotoset by JZumun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -11,7 +11,7 @@
   </head>
   <body>
     <section class="page-header">
-      <h1 class="project-name">Setphotoset</h1>
+      <h1 class="project-name">setPhotoset</h1>
       <h2 class="project-tagline">Javascript Function for Dynamic, Proportional Resizing of Images in a Photoset</h2>
       <a href="https://github.com/JZumun/setPhotoset" class="btn">View on GitHub</a>
       <a href="https://github.com/JZumun/setPhotoset/zipball/master" class="btn">Download .zip</a>
@@ -103,7 +103,106 @@
 <h2>
 <a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h2>
 
-<p>For examples, visit this <a href="http://jzumun.tumblr.com/set-photoset">demo page</a></p>
+<h3>Example 1: Basic Usage</h3>
+<h4>HTML</h4> 
+<pre class="lang-html"><code>&lt;div class="photoset" id="#photoset1"&gt;
+    &lt;img src="1.png" /&gt;
+    &lt;img src="2.png" /&gt;
+    &lt;img src="3.png" /&gt;
+    &lt;img src="4.png" /&gt;
+    &lt;img src="5.png" /&gt;
+&lt;/div&gt;</code>
+</pre>
+<h4>Javascript</h4>
+<pre><code>var photoset = document.querySelector("#photoset1");
+jzmn.setPhotoset(photoset,{layout:"23"});
+</code></pre>
+<h4>Result:</h4>
+<div class="set-example" id="example1">
+    <img src="https://41.media.tumblr.com/ca493b931aed8a348ecf4d768fe158ba/tumblr_ntl3gkXUhJ1qhqme0o9_1280.jpg" />
+    <img src="https://40.media.tumblr.com/88c5926f7966818fccb3f8742bdf84c4/tumblr_ntl3gkXUhJ1qhqme0o1_1280.jpg" />
+    <img src="https://40.media.tumblr.com/a302157bbca1674eefb2d18bc1b15c09/tumblr_ntl3gkXUhJ1qhqme0o2_1280.jpg" />
+    <img src="https://40.media.tumblr.com/a10e1f69de529e8f04821a3208028184/tumblr_ntl3gkXUhJ1qhqme0o7_1280.jpg" />
+    <img src="https://41.media.tumblr.com/4d5c8effb0288215c9c15d1f3c794738/tumblr_ntl3gkXUhJ1qhqme0o6_1280.jpg" />
+</div>
+
+<h3>Example 2: Multiple Photosets</h3>
+<p>By setting a <code>data-layout</code> attribute on each individual photoset, they can all be targeted and styled while applying different layouts..</p>
+<h4>HTML</h4> 
+<pre class="lang-html"><code>&lt;div class="photoset" id="#photoset2-1" data-layout="23"&gt;
+    &lt;img src="1.png" /&gt;
+    &lt;img src="2.png" /&gt;
+    &lt;img src="3.png" /&gt;
+    &lt;img src="4.png" /&gt;
+    &lt;img src="5.png" /&gt;
+&lt;/div&gt;
+&lt;div class="photoset" id="#photoset2-2" data-layout="121" &gt;
+    &lt;img src="6.png" /&gt;
+    &lt;img src="7.png" /&gt;
+    &lt;img src="8.png" /&gt;
+    &lt;img src="9.png" /&gt;
+&lt;/div&gt;</code></pre>
+</pre>
+<h4>Javascript</h4>
+<pre><code>var photosets = document.querySelectorAll(".photoset");
+jzmn.setPhotoset(photosets);</code></pre>
+<h4>Result:</h4>
+<div class="set-example" id="example2">
+    <div class="photoset" data-layout="23">
+        <img src="https://41.media.tumblr.com/ca493b931aed8a348ecf4d768fe158ba/tumblr_ntl3gkXUhJ1qhqme0o9_1280.jpg" />
+        <img src="https://40.media.tumblr.com/88c5926f7966818fccb3f8742bdf84c4/tumblr_ntl3gkXUhJ1qhqme0o1_1280.jpg" />
+        <img src="https://40.media.tumblr.com/a302157bbca1674eefb2d18bc1b15c09/tumblr_ntl3gkXUhJ1qhqme0o2_1280.jpg" />
+        <img src="https://40.media.tumblr.com/a10e1f69de529e8f04821a3208028184/tumblr_ntl3gkXUhJ1qhqme0o7_1280.jpg" />
+        <img src="https://41.media.tumblr.com/4d5c8effb0288215c9c15d1f3c794738/tumblr_ntl3gkXUhJ1qhqme0o6_1280.jpg" />
+    </div>
+    <div class="photoset" data-layout="121">
+        <img src="https://40.media.tumblr.com/8dfa2986674e33563e1caac48efceb89/tumblr_ntl3gkXUhJ1qhqme0o4_1280.jpg" />
+        <img src="https://41.media.tumblr.com/115e9ab4739513722e919344c775813d/tumblr_ntl3gkXUhJ1qhqme0o5_1280.jpg" />
+        <img src="https://41.media.tumblr.com/8b1419800b3fa4d9cfde6fffe47ca9ae/tumblr_ntl3gkXUhJ1qhqme0o3_1280.jpg" />
+        <img src="https://40.media.tumblr.com/a10e1f69de529e8f04821a3208028184/tumblr_ntl3gkXUhJ1qhqme0o7_1280.jpg" />
+    </div>
+</div>
+
+<h3>Example 3: Setting Immediately</h3>
+<p>For the following example, the <code>a</code> tags will be targeted, with attributes <code>data-height</code> and <code>data-width</code> to set its dimensions. Note that <code>childItem</code> may <em>not necessarily</em> be a direct descendant of the photoset node. This example is a bit contrived, because it will otherwise still work like Example 1, if we let it.</p>
+<h4>HTML</h4>
+<pre class="lang-html"><code>&lt;div class="photoset" id="#photoset3" data-layout="12" &gt;
+    &lt;a href="1.png" data-height="2448" data-width"3264"&gt;
+        &lt;img src="1.png" /&gt;
+    &lt;/a&gt;
+    &lt;a href="2.png" data-height="700" data-width"1050"&gt;
+        &lt;img src="2.png" /&gt;
+    &lt;/a&gt;
+    &lt;a href="1.png" data-height="1575" data-width"1050"&gt;
+        &lt;img src="1.png" /&gt;
+    &lt;/a&gt;
+&lt;/div&gt;</code></pre>
+<h4>Javascript</h4>
+<pre><code>var photoset = document.querySelector("#photoset3")
+jzmn.setPhotoset(photoset,{
+	immediate:   true, 
+	childItem:   'a'
+	childHeight: 'data-height', 
+	childWidth:  'data-width'
+});</code></pre>
+<h4>Result</h4>
+<div class="set-example" id="example3" data-layout="12">
+	<a href="#" data-width="3264" data-height="2448">
+		<img src="https://40.media.tumblr.com/a10e1f69de529e8f04821a3208028184/tumblr_ntl3gkXUhJ1qhqme0o7_1280.jpg" />
+	</a> 
+	<a href="#" data-width="1050" data-height="700">
+		<img src="https://40.media.tumblr.com/88c5926f7966818fccb3f8742bdf84c4/tumblr_ntl3gkXUhJ1qhqme0o1_1280.jpg" />
+	</a>
+	<a href="#" data-width="1050" data-height="1575">
+		<img src="https://40.media.tumblr.com/a302157bbca1674eefb2d18bc1b15c09/tumblr_ntl3gkXUhJ1qhqme0o2_1280.jpg" />
+	</a>
+</div>
+<h3>Example 4: Gutters</h3>
+<h4>Javascript</h4>
+<pre><code>jzmn.setPhotoset(<em>photoset</em>,{gutter:"5px"});</code></pre>
+<h4>Result</h4>
+<div class="set-example" id="example4"><img src="https://40.media.tumblr.com/a10e1f69de529e8f04821a3208028184/tumblr_ntl3gkXUhJ1qhqme0o7_1280.jpg" /><img src="https://40.media.tumblr.com/88c5926f7966818fccb3f8742bdf84c4/tumblr_ntl3gkXUhJ1qhqme0o1_1280.jpg" /><img src="https://40.media.tumblr.com/a302157bbca1674eefb2d18bc1b15c09/tumblr_ntl3gkXUhJ1qhqme0o2_1280.jpg" /><img src="https://41.media.tumblr.com/ca493b931aed8a348ecf4d768fe158ba/tumblr_ntl3gkXUhJ1qhqme0o9_1280.jpg" /><img src="https://41.media.tumblr.com/4d5c8effb0288215c9c15d1f3c794738/tumblr_ntl3gkXUhJ1qhqme0o6_1280.jpg" /></div>
+
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/JZumun/setPhotoset">Setphotoset</a> is maintained by <a href="https://github.com/JZumun">JZumun</a>.</span>
@@ -113,6 +212,22 @@
 
     </section>
 
+  <script src="https://raw.githubusercontent.com/JZumun/setPhotoset/master/jzmn.setphotoset-module.min.js" type="text/javascript"></script>
+  <script>
+  	var photosets = {
+  		"#example1" : {layout:"23"},
+  		"#example2 .photoset" : {},
+  		"#example3" : { immediate: true, childItem: 'a', childHeight: 'data-height', childWidth: 'data-width' },
+  		"#example4" : {layout:"23",gutter:"5px"}
+  	}
+
+  	Object.keys(photosets).forEach(function(selector){
+  		jzmn.setPhotoset(
+  			document.querySelectorAll(selector),
+  			photosets[selector]
+  		);
+  	})
+  </script>
   
   </body>
 </html>
