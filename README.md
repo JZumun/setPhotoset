@@ -14,7 +14,7 @@ jzmn.setPhotoset(element,userOptions,grouping)
 
 *`userOptions`* is an optional object containing customizable options for the function (listed below).
 
-*`grouping`* is a CSS-selector-friendly string meant to group photosets together in a class for similar styling. If set, gives the photoset elements a class 'photoset-*grouping*'. Will be randomly generated if not set.
+*`grouping`* is an optional CSS-selector-friendly string meant to group photosets together in a class for similar styling. If set, gives the photoset elements a class 'photoset-*grouping*'. Will be randomly generated if not set.
 
 User Options
 ------------
