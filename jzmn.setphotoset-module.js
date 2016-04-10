@@ -90,6 +90,8 @@ var jzmn = (function(jzmn){
 				el.classList.add("photoset-item");
 				el.classList.remove("photoset-last-column");
 				el.classList.remove("photoset-last-row");
+				el.classList.remove("photoset-first-column");
+				if ( itemIndex   === 0 			  ) el.classList.add("photoset-first-column");
 				if ( itemIndex   === numItems - 1 ) el.classList.add("photoset-last-column");
 				if ( layoutIndex ===  numRows - 1 ) el.classList.add("photoset-last-row");
 
@@ -144,7 +146,7 @@ var jzmn = (function(jzmn){
 			[	".photoset-container:after {content:'';display:table;clear:both;}",
 				".photoset-item { display:block;float:left;margin:0;height:auto;}",
 				".photoset-last-column {margin-right:0 !important;}",
-				".photoset-last-column + .photoset-item {clear:left}", 
+				".photoset-first-column {clear:left}",
 				".photoset-last-row {margin-bottom:0 !important;}"
 			].forEach(function(rule) {
 				styles.sheet.insertRule(rule,styles.sheet.cssRules.length);

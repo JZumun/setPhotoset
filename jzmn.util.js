@@ -133,8 +133,6 @@ jzmn.util.removeClass = jzmn.classMethods.removeClass;
 				element.setAttribute(key,attrVal);
 			})
 		}
-		
-
 		factory.appendChildren(element,children);
 		return element;
 	};
