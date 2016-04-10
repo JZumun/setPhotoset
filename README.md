@@ -32,4 +32,4 @@ User Options
 Examples
 --------
 
-For examples, visit this [demo page](http://jzumun.tumblr.com/set-photoset)
+For examples, visit this [demo page](http://jzumun.github.io/setPhotoset/)
