@@ -194,7 +194,7 @@ var jzmn = (function(jzmn){
 		if (settings.createSheet) applyStyling(settings,grouping);
 
 		/* Run layouting either immediately or after all images have loaded */
-		if (!settings.immediate) photosetLoaded(photoset,applyLayout,[photoset,settings,grouping]);
+		if (( !settings.immediate && settings.childItem == "img" )) photosetLoaded(photoset,applyLayout,[photoset,settings,grouping]);
 		else applyLayout(photoset,settings,grouping);
 
 		return photoset;
