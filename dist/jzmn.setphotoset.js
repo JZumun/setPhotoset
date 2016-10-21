@@ -1,27 +1,32 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.jzmn = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.setPhotoset = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
 var isString = function isString(thing) {
 	return thing.toString() === thing;
 };
+var isArray = Array.isArray;
 var noop = function noop() {};
-var generateId = function generateId() {
-	return Math.floor(100000 * Math.random() + 1).toString();
+
+var parseNum = function parseNum(i) {
+	return parseInt(i, 10);
+};
+var arrifyLayoutString = function arrifyLayoutString(layoutString) {
+	return layoutString.charAt(0) === "[" ? layoutString.replace(/\[([0-9,]*)\]/, "$1").split(",").map(parseNum) : layoutString.split("").map(parseNum);
+};
+var sanitizeLayout = function sanitizeLayout(layout) {
+	return isArray(layout) ? layout : isString(layout) ? arrifyLayoutString(layout) : [];
 };
 var sanitizeGutter = function sanitizeGutter(gutter) {
 	return gutter && gutter + (isString(gutter) ? "" : "px");
 };
-var sanitizeLayout = function sanitizeLayout(layout) {
-	return Array.isArray(layout) ? layout : (layout || "").split("").map(function (i) {
-		return parseInt(i);
-	});
+
+var generateId = function generateId() {
+	return Math.floor(100000 * Math.random() + 1).toString();
 };
 var el = function el(element) {
-	if (!element) throw new TypeError("[setPhotoset] Argument cannot be null.");
+	if (!element) return [];
 	if (isString(element)) return document.querySelectorAll(element);
 	if (element.nodeType) return [element];
 	if (element.length) return element;
@@ -40,7 +45,6 @@ var createNewStyleSheet = function createNewStyleSheet() {
 
 	return styles;
 };
-
 var groupings = new Set();
 var styles = document.querySelector("#jzmn-setphotoset-styles");
 var createStyleSheet = function createStyleSheet(_ref) {
@@ -52,7 +56,7 @@ var createStyleSheet = function createStyleSheet(_ref) {
 	}
 	if (gutter && !groupings.has(grouping)) {
 		groupings.add(grouping);
-		['.photoset-' + grouping + ' .photoset-item:not(.photoset-last-column) { margin-right: calc(' + gutter + '); }', '.photoset-' + grouping + ' .photoset-item:not(.photoset-last-row) { margin-bottom: calc(' + gutter + '); }'].forEach(function (rule) {
+		[".photoset-" + grouping + " .photoset-item:not(.photoset-last-column) { margin-right: calc(" + gutter + "); }", ".photoset-" + grouping + " .photoset-item:not(.photoset-last-row) { margin-bottom: calc(" + gutter + "); }"].forEach(function (rule) {
 			return styles.sheet.insertRule(rule, styles.sheet.cssRules.length);
 		});
 	}
@@ -93,7 +97,6 @@ var applyLayout = function applyLayout(_ref3) {
 	var childWidth = _ref3.childWidth;
 
 	return function (photoset) {
-		console.log('applying layout for ' + photoset);
 		var items = Array.from(photoset.querySelectorAll(childItem));
 		var numRows = layout.length;
 		var lastColumn = [];
@@ -147,7 +150,7 @@ var applyLayout = function applyLayout(_ref3) {
 			var item = items[itemIndex];
 			item.classList.add("photoset-item");
 			item.classList.remove("photoset-last-column", "photoset-last-row", "photoset-first-column");
-			item.setAttribute("style", 'width: ' + width + '%;' + (gutter ? 'width: calc(' + width / 100 + '*(100% - ' + (numItems - 1) + '*(' + gutter + ')));' : ""));
+			item.setAttribute("style", "width: " + width + "%;" + (gutter ? "width: calc(" + width / 100 + "*(100% - " + (numItems - 1) + "*(" + gutter + ")));" : ""));
 		});
 		lastColumn.forEach(function (item) {
 			return item.classList.add("photoset-last-column");
@@ -202,8 +205,8 @@ var setPhotoset = function setPhotoset(set) {
 		for (var _iterator = set[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 			var photoset = _step.value;
 
+			photoset.classList.add("photoset-loading", "photoset-container", "photoset-" + grouping);
 			layout = sanitizeLayout(layout || photoset.getAttribute(layoutAttribute));
-			photoset.classList.add("photoset-loading", "photoset-container", 'photoset-' + grouping);
 			loadPhotoset(photoset, { immediate: immediate, childItem: childItem }).then(applyLayout({ layout: layout, gutter: gutter, childItem: childItem, childHeight: childHeight, childWidth: childWidth })).then(callback);
 		}
 	} catch (err) {
@@ -224,7 +227,7 @@ var setPhotoset = function setPhotoset(set) {
 	return set;
 };
 
-exports.setPhotoset = setPhotoset;
+module.exports = setPhotoset;
 
 },{}]},{},[1])(1)
 });

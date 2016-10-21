@@ -1,10 +1,17 @@
 const isString = (thing) => thing.toString() === thing;
+const isArray = Array.isArray;
 const noop = ()=>{};
-const generateId = ()=>Math.floor(100000*Math.random()+1).toString();
+
+const parseNum = i => parseInt(i,10);
+const arrifyLayoutString = (layoutString) => layoutString.charAt(0) === "[" 
+				? layoutString.replace(/\[([0-9,]*)\]/,"$1").split(",").map(parseNum)
+				: layoutString.split("").map(parseNum);
+const sanitizeLayout = (layout) =>  isArray(layout)? layout : isString(layout)? arrifyLayoutString(layout) : [];
 const sanitizeGutter = (gutter) => gutter && (gutter + (isString(gutter) ? "" : "px"));
-const sanitizeLayout = (layout) =>  Array.isArray(layout) ? layout : (layout || "").split("").map(i=>parseInt(i));
+
+const generateId = ()=>Math.floor(100000*Math.random()+1).toString();
 const el = (element) => {
-	if (!element) throw new TypeError("[setPhotoset] Argument cannot be null.");
+	if (!element) return [];
 	if (isString(element)) return document.querySelectorAll(element);
 	if (element.nodeType) return [element];
 	if (element.length) return element;
@@ -26,7 +33,6 @@ const createNewStyleSheet = () => {
 
 	return styles;
 }
-
 const groupings = new Set();
 let styles = document.querySelector("#jzmn-setphotoset-styles");
 const createStyleSheet = ({grouping, gutter}) => {
@@ -62,7 +68,6 @@ const loadPhotoset = (photoset, {immediate, childItem}) => {
 
 const applyLayout = ({layout,gutter,childItem, childHeight, childWidth}) => {
 	return (photoset) => {
-		console.log(`applying layout for ${photoset}`)
 		const items = Array.from(photoset.querySelectorAll(childItem));
 		const numRows = layout.length;
 		const [lastColumn,lastRow,firstColumn] = [[],[],[]];
@@ -115,7 +120,7 @@ const applyLayout = ({layout,gutter,childItem, childHeight, childWidth}) => {
 	}
 }
 
-export const setPhotoset = function(set,{
+const setPhotoset = function(set,{
 	layout = null,
 	immediate = false,
 	childItem = "img",
@@ -132,8 +137,8 @@ export const setPhotoset = function(set,{
 	if (createSheet) { createStyleSheet({grouping,gutter}); }
 
 	for(let photoset of set) {
-		layout = sanitizeLayout(layout || photoset.getAttribute(layoutAttribute));
 		photoset.classList.add("photoset-loading","photoset-container",`photoset-${grouping}`);
+		layout = sanitizeLayout(layout || photoset.getAttribute(layoutAttribute));
 		loadPhotoset(photoset,{ immediate, childItem})
 			.then(applyLayout({layout,gutter, childItem, childHeight, childWidth }))
 			.then(callback);
@@ -141,3 +146,5 @@ export const setPhotoset = function(set,{
 	
 	return set;
 }
+
+export default setPhotoset;

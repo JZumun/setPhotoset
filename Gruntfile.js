@@ -6,7 +6,7 @@ module.exports = function (grunt) {
                 dest: './dist/jzmn.setphotoset.js',
                 options: {
                     browserifyOptions: { 
-                        standalone: "jzmn"
+                        standalone: "setPhotoset"
                     },
                     transform: ["rollupify",["babelify",{
                         presets:["latest"]
