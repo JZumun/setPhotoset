@@ -115,7 +115,7 @@ const applyLayout = ({layout,gutter,childItem, childHeight, childWidth}) => {
 	}
 }
 
-const setPhotoset = function(set,{
+export const setPhotoset = function(set,{
 	layout = null,
 	immediate = false,
 	childItem = "img",
@@ -141,5 +141,3 @@ const setPhotoset = function(set,{
 	
 	return set;
 }
-
-export default setPhotoset;
