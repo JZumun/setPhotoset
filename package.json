@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "jstransformer-markdown-it": "^2.0.0"
+  }
+}

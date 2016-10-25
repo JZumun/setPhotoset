@@ -1,0 +1,231 @@
+*, *:before, *:after { 
+	-moz-box-sizing: inherit;
+	box-sizing: inherit; 
+}
+html { 
+	-moz-box-sizing:border-box; 
+	box-sizing:border-box;
+}	
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+ol, ul {
+	margin:1em 0;
+	position:relative;
+	padding-left:1.25em;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,F
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+
+
+iframe,object,embed,img {
+	display:block;
+	max-width:100%; 
+	width:100%;
+	margin:auto; 
+}
+img {
+	height: auto;
+}
+
+/*Basics*/
+html { font-size:12px;}
+body { 
+	font-family:"Fontin Sans";
+	-moz-font-feature-settings:"onum" 1, "nalt" 1, "liga" 1; 
+	-ms-font-feature-settings:"onum" 1, "nalt" 1, "liga" 1; 
+	-o-font-feature-settings:"onum" 1, "nalt" 1, "liga" 1; 
+	-webkit-font-feature-settings:"onum" 1, "nalt" 1, "liga" 1; 
+	font-feature-settings:"onum" 1, "nalt" 1, "liga" 1;
+	line-height:1.75; 
+	overflow-x:hidden; 
+	font-size:12px;
+}
+p:nth-child(n+2) { margin-top:1em; }
+
+code {
+	font-family: monospace;
+}
+
+
+/*Links and Headers*/
+a { text-decoration:none; font-weight: bold; } 
+	
+h1, h2, h3, h4 { 
+	font-family: "Fontin Sans SC";
+	letter-spacing:0.1ch;
+	font-weight:normal;
+	line-height:1;
+	margin-top:2em;
+	margin-bottom:1rem;
+	font-weight:bold;
+}
+
+h1 {	font-size: 2em; }
+h2 {	font-size: 1.5em; }
+h3 {	font-size: 1.15em; }
+b, strong { font-weight:bolder; }
+i, em { font-style:italic; }			
+
+
+.alink, .button, .read_more, .tc-link, .tum-tag {
+	display:inline-block; 
+	position:relative; 
+	vertical-align:bottom; 
+	text-transform:uppercase;
+	height:3em; 
+	line-height:3em;
+	font-size: 0.5rem ;
+	text-align:center; 
+	border:0px solid;
+	cursor:pointer;
+	padding:0 2em;
+}
+
+/*Pre and Blockquote*/
+pre, blockquote, .answer_content { 
+	padding:0 1rem; 
+	clear:both;
+	margin-top:1em;
+}
+
+pre {
+	padding:1rem;
+	font-size:0.9em;
+	white-space:pre; 
+	overflow:auto;
+}
+
+/*Pre*/
+pre.prettyprinted { padding:0 2rem;  }
+pre  .linenums { float:left; padding:0 1rem;}
+ol.linenums { min-width:100%; }
+
+.button {
+	display:inline-block;
+	margin:0 1em;
+}
+
+/*Table*/
+table {
+	border-collapse: collapse;
+}
+
+td {
+    border: 1px solid;
+    padding: 1em;
+}
+
+/*Photosets*/
+.set-example, .photoset + .photoset {
+	margin:1em 0;
+}
+
+/*Structure*/
+.page-header, .site-footer {
+    padding: 1em;
+    text-align:center;
+    position:relative;
+}
+.page-header {
+	border-bottom: 0.25rem solid;
+}
+
+.page-links {
+	position:relative;
+	margin-bottom:-1.25em;
+	margin-top:1em;
+}
+
+.site-footer {
+	border-top:0.25em solid;
+}
+.main-content {
+	max-width:60em;
+	margin:auto;
+	padding:2em 1em;
+}
+
+
+/*Animations*/
+a, .button, a:before, a:after, .title, .alink, .head-content, .head-main-content, .tum-tag {transition:color 0.2s, background 0.2s, border-color 0.2s;}
+
+
+/*Media Queries*/
+@media all and (min-width: 1200px) {
+	html { font-size: 16px ; }
+	body { font-size: 16px ; }
+}
+
+/*Color*/
+
+body, td {
+	background-color: #f2f0f0;
+	border-color: #d4cfc9;
+	color: #14100f;
+}
+
+pre , .page-header, .site-footer {
+	background-color: #14100f;
+	border-color: #a83018;
+	color: #f2f0f0;
+}
+
+a {
+	color: #a83018;
+}
+a:hover {
+	color: #832204;
+}
+
+.button {
+	color: #f2f0f0;
+	background-color: #a83018;
+	border-color: #832204;
+}
+
+.button:hover {
+	color: #f2f0f0;
+	border-color: #a83018;
+	background-color: #832204;
+}
+
+.page-header {
+    background-image: url(https://images.unsplash.com/photo-1476813001184-9044d31e0ad1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&s=ce9ddc4db870bed74b934db460de8246);
+    background-size:cover;
+    background-blend-mode: multiply;
+    background-color: #832204;
+}
