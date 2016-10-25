@@ -1,18 +1,107 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>setPhotoset: Javascript Function for Dynamic, Proportional Resizing of Images in a Photoset</title><link rel="stylesheet" type="text/css" href="stylesheets/fontin.css"><link rel="stylesheet" type="text/css" href="stylesheets/jzmn.css"></head><body><section class="page-header"><h1 class="project-name">setPhotoset</h1><p class="project-tagline">setPhotoset: Javascript Function for Dynamic, Proportional Resizing of Images in a Photoset</p><nav class="page-links"><a class="button" href="https://github.com/JZumun/setPhotoset">View on Github</a><a class="button" href="https://github.com/JZumun/setPhotoset/zipball/master">Download .zip</a><a class="button" href="https://github.com/JZumun/setPhotoset/tarball/master">Download .tar.gz</a></nav></section><section class="main-content"><p><strong><code>jzmn.setPhotoset</code></strong> is a javascript function for beautifully resizing images in a photoset, without cropping or aspect-ratio distortion, such that all images in a row are of the same height.<code>jzmn.setPhotoset</code> makes use of percentage widths, so that the photoset can work for all sizes, and can be resized without problem.</p>
-<h2 id="basic-usage">Basic Usage</h2><p>The general format of <code>setPhotoset</code> is shown below:</p>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>setPhotoset: Javascript Function for Dynamic, Proportional Resizing of Images in a Photoset</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/fontin.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/jzmn.css">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">setPhotoset</h1>
+      <p class="project-tagline">setPhotoset: Javascript Function for Dynamic, Proportional Resizing of Images in a Photoset</p>
+      <nav class="page-links"><a class="button" href="https://github.com/JZumun/setPhotoset">View on Github</a><a class="button" href="https://github.com/JZumun/setPhotoset/zipball/master">Download .zip</a><a class="button" href="https://github.com/JZumun/setPhotoset/tarball/master">Download .tar.gz</a></nav>
+    </section>
+    <section class="main-content"><p><strong><code>jzmn.setPhotoset</code></strong> is a javascript function for beautifully resizing images in a photoset, without cropping or aspect-ratio distortion, such that all images in a row are of the same height.<code>jzmn.setPhotoset</code> makes use of percentage widths, so that the photoset can work for all sizes, and can be resized without problem.</p>
+
+      <h2 id="basic-usage">Basic Usage</h2><p>The general format of <code>setPhotoset</code> is shown below:</p>
 <pre><code class="language-javascript">setPhotoset(element,userOptions,grouping);
 </code></pre>
 <p><em><code>element</code></em> refers to the element node, nodelist of elements, or CSS-selector string of the photosets you want to set.</p>
 <p><em><code>userOptions</code></em> is an optional object containing customizable options for the function (listed below).</p>
 <p><em><code>grouping</code></em> is an optional CSS-selector-friendly string meant to group photosets together in a class for similar styling. If not set, <em><code>grouping</code></em> will be randomly generated.</p>
-<h2 id="user-options">User Options</h2><table><thead><tr><th class="data-options">Options</th><th class="data-type">Type</th><th class="data-default">Default</th><th class="data-description">Description</th></tr></thead><tbody><tr><td class="data-options">layout</td><td class="data-type">String || [Number]</td><td class="data-default">null</td><td class="data-description">defines layout of photoset (number of items per row. e.g. '121' or [1,2,1]). If falsy, layout information is aquired from the attribute name defined by codelayoutAttribute/code if existing, or else nothing happens.</td></tr><tr><td class="data-options">layoutAttribute</td><td class="data-type">String</td><td class="data-default">data-layout</td><td class="data-description">attribute name from which layout information will be derived, if codelayout/code property is falsy.</td></tr><tr><td class="data-options">immediate</td><td class="data-type">Boolean</td><td class="data-default">false</td><td class="data-description">If false, waits for all children defined by codechildItem/code to load before executing layout application. If true immediately applies layout, making use of height and width data provided in the attributes defined in codechildHeight/code and codechildWidth/code of codechildItems/code.</td></tr><tr><td class="data-options">childItem</td><td class="data-type">String</td><td class="data-default">img</td><td class="data-description">CSS-selector string that determines which children inside element is used to create grid.</td></tr><tr><td class="data-options">childHeight</td><td class="data-type">String</td><td class="data-default">height</td><td class="data-description">name of attribute on each childItem that lists item's height.</td></tr><tr><td class="data-options">childWidth</td><td class="data-type">String</td><td class="data-default">width</td><td class="data-description">name of attribute on each childItem that lists item's width.</td></tr><tr><td class="data-options">gutter</td><td class="data-type">Number || String</td><td class="data-default">0</td><td class="data-description">value that sets spacing between items. If string, must be usable inside calc(). If a number, is set in px.</td></tr><tr><td class="data-options">createSheet</td><td class="data-type">Boolean</td><td class="data-default">true</td><td class="data-description">boolean determining whether a stylesheet is to be created containing the styling required for layouting (if it doesn't yet exist). Set to false if you wish to supply your own stylesheet. See setphotoset-example.css for sample.</td></tr></tbody></table><h2 id="examples">Examples</h2><h3>Example 1: Basic Usage</h3><h4>HTML</h4><pre class="lang-html"><code>&lt;div class="photoset" id="#photoset1"&gt;
+
+      <h2 id="user-options">User Options</h2>
+      <table>
+        <thead>
+          <tr>
+            <th class="data-options">Options</th>
+            <th class="data-type">Type</th>
+            <th class="data-default">Default</th>
+            <th class="data-description">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="data-options">layout</td>
+            <td class="data-type">String || [Number]</td>
+            <td class="data-default">null</td>
+            <td class="data-description">defines layout of photoset (number of items per row. e.g. '121' or [1,2,1]). If falsy, layout information is aquired from the attribute name defined by <code>layoutAttribute</code< if existing, or else nothing happens.</td>
+          </tr>
+          <tr>
+            <td class="data-options">layoutAttribute</td>
+            <td class="data-type">String</td>
+            <td class="data-default">data-layout</td>
+            <td class="data-description">attribute name from which layout information will be derived, if <code>layout</code> property is falsy.</td>
+          </tr>
+          <tr>
+            <td class="data-options">immediate</td>
+            <td class="data-type">Boolean</td>
+            <td class="data-default">false</td>
+            <td class="data-description">If false, waits for all children defined by <code>childItem</code> to load before executing layout application. If true immediately applies layout, making use of height and width data provided in the attributes defined in <code>childHeight</code> and <code>childWidth</code> of childItems.</td>
+          </tr>
+          <tr>
+            <td class="data-options">childItem</td>
+            <td class="data-type">String</td>
+            <td class="data-default">img</td>
+            <td class="data-description">CSS-selector string that determines which children inside element is used to create grid.</td>
+          </tr>
+          <tr>
+            <td class="data-options">childHeight</td>
+            <td class="data-type">String</td>
+            <td class="data-default">height</td>
+            <td class="data-description">name of attribute on each <code>childItem</code> that lists item's height.</td>
+          </tr>
+          <tr>
+            <td class="data-options">childWidth</td>
+            <td class="data-type">String</td>
+            <td class="data-default">width</td>
+            <td class="data-description">name of attribute on each <code>childItem</code> that lists item's width.</td>
+          </tr>
+          <tr>
+            <td class="data-options">gutter</td>
+            <td class="data-type">Number || String</td>
+            <td class="data-default">0</td>
+            <td class="data-description">value that sets spacing between items. If string, must be usable inside calc(). If a number, is set in px.</td>
+          </tr>
+          <tr>
+            <td class="data-options">createSheet</td>
+            <td class="data-type">Boolean</td>
+            <td class="data-default">true</td>
+            <td class="data-description">boolean determining whether a stylesheet is to be created containing the styling required for layouting (if it doesn't yet exist). Set to false if you wish to supply your own stylesheet. See <a href='https://github.com/JZumun/setPhotoset/blob/master/src/setphotoset-example.css'>setphotoset-example.css</a> for sample.</td>
+          </tr>
+        </tbody>
+      </table>
+      <h2 id="examples">Examples</h2>
+      <h3>Example 1: Basic Usage</h3>
+      <h4>HTML</h4>
+      <pre class="lang-html"><code>&lt;div class="photoset" id="#photoset1"&gt;
 	&lt;img src="1.png" /&gt;
 	&lt;img src="2.png" /&gt;
 	&lt;img src="3.png" /&gt;
 	&lt;img src="4.png" /&gt;
 	&lt;img src="5.png" /&gt;
-&lt;/div&gt;</code></pre><h4>Javascript</h4><pre class="lang-js"><code>var photoset = document.querySelector("#photoset1");
-setPhotoset(photoset,{layout:"23"});</code></pre><h4>Result</h4><div class="photoset set-example" id="example1"><img src="https://41.media.tumblr.com/ca493b931aed8a348ecf4d768fe158ba/tumblr_ntl3gkXUhJ1qhqme0o9_1280.jpg"><img src="https://40.media.tumblr.com/88c5926f7966818fccb3f8742bdf84c4/tumblr_ntl3gkXUhJ1qhqme0o1_1280.jpg"><img src="https://40.media.tumblr.com/a302157bbca1674eefb2d18bc1b15c09/tumblr_ntl3gkXUhJ1qhqme0o2_1280.jpg"><img src="https://40.media.tumblr.com/a10e1f69de529e8f04821a3208028184/tumblr_ntl3gkXUhJ1qhqme0o7_1280.jpg"><img src="https://41.media.tumblr.com/4d5c8effb0288215c9c15d1f3c794738/tumblr_ntl3gkXUhJ1qhqme0o6_1280.jpg"></div><h3>Example 2: Multiple Photosets</h3><p>By defining a codelayoutAttribute/code property and then setting it as an attribute on each individual photoset (or setting a 'data-layout' attribute which is the default value for the option), multiple sets can be targeted and styled by the same line of javascript while applying different layouts.</p><h4>HTML</h4><pre class="lang-html"><code>&lt;div class="photoset" id="#photoset2-1" data-layout="23"&gt;
+&lt;/div&gt;</code></pre>
+      <h4>Javascript</h4>
+      <pre class="lang-js"><code>var photoset = document.querySelector("#photoset1");
+setPhotoset(photoset,{layout:"23"});</code></pre>
+      <h4>Result</h4>
+      <div class="photoset set-example" id="example1"><img src="https://41.media.tumblr.com/ca493b931aed8a348ecf4d768fe158ba/tumblr_ntl3gkXUhJ1qhqme0o9_1280.jpg"><img src="https://40.media.tumblr.com/88c5926f7966818fccb3f8742bdf84c4/tumblr_ntl3gkXUhJ1qhqme0o1_1280.jpg"><img src="https://40.media.tumblr.com/a302157bbca1674eefb2d18bc1b15c09/tumblr_ntl3gkXUhJ1qhqme0o2_1280.jpg"><img src="https://40.media.tumblr.com/a10e1f69de529e8f04821a3208028184/tumblr_ntl3gkXUhJ1qhqme0o7_1280.jpg"><img src="https://41.media.tumblr.com/4d5c8effb0288215c9c15d1f3c794738/tumblr_ntl3gkXUhJ1qhqme0o6_1280.jpg"></div>
+      <h3>Example 2: Multiple Photosets</h3>
+      <p>By defining a <code>layoutAttribute</code> property and then setting it as an attribute on each individual photoset (or setting a 'data-layout' attribute which is the default value for the option), multiple sets can be targeted and styled by the same line of javascript while applying different layouts.</p>
+      <h4>HTML</h4>
+      <pre class="lang-html"><code>&lt;div class="photoset" id="#photoset2-1" data-layout="23"&gt;
 	&lt;img src="1.png" /&gt;
 	&lt;img src="2.png" /&gt;
 	&lt;img src="3.png" /&gt;
@@ -24,8 +113,19 @@ setPhotoset(photoset,{layout:"23"});</code></pre><h4>Result</h4><div class="phot
 	&lt;img src="7.png" /&gt;
 	&lt;img src="8.png" /&gt;
 	&lt;img src="9.png" /&gt;
-&lt;/div&gt;</code></pre><h4>Javascript</h4><pre class="lang-js">var photosets = document.querySelectorAll(".photoset");
-setPhotoset(photosets);</pre><h4>Result</h4><div class="set-example" id="example2"><div class="photoset" data-layout="23"><img src="https://41.media.tumblr.com/ca493b931aed8a348ecf4d768fe158ba/tumblr_ntl3gkXUhJ1qhqme0o9_1280.jpg"><img src="https://40.media.tumblr.com/88c5926f7966818fccb3f8742bdf84c4/tumblr_ntl3gkXUhJ1qhqme0o1_1280.jpg"><img src="https://40.media.tumblr.com/a302157bbca1674eefb2d18bc1b15c09/tumblr_ntl3gkXUhJ1qhqme0o2_1280.jpg"><img src="https://40.media.tumblr.com/a10e1f69de529e8f04821a3208028184/tumblr_ntl3gkXUhJ1qhqme0o7_1280.jpg"><img src="https://41.media.tumblr.com/4d5c8effb0288215c9c15d1f3c794738/tumblr_ntl3gkXUhJ1qhqme0o6_1280.jpg"></div><div class="photoset" data-layout="22"><img src="https://40.media.tumblr.com/8dfa2986674e33563e1caac48efceb89/tumblr_ntl3gkXUhJ1qhqme0o4_1280.jpg"><img src="https://41.media.tumblr.com/115e9ab4739513722e919344c775813d/tumblr_ntl3gkXUhJ1qhqme0o5_1280.jpg"><img src="https://41.media.tumblr.com/8b1419800b3fa4d9cfde6fffe47ca9ae/tumblr_ntl3gkXUhJ1qhqme0o3_1280.jpg"><img src="https://40.media.tumblr.com/a10e1f69de529e8f04821a3208028184/tumblr_ntl3gkXUhJ1qhqme0o7_1280.jpg"></div></div><h3>Example 3: Setting Immediately</h3><p>For the following example, the codea/code tags will be targeted, with attributes codedata-height/code and codedata-width/code to set its dimensions. Note that codechildItem/code may emnot necessarily/em be a direct descendant of the photoset node.</p><h4>HTML</h4><pre class="lang-html"><code>&lt;div class="photoset" id="#photoset3" data-layout="12" &gt;
+&lt;/div&gt;</code></pre>
+      <h4>Javascript</h4>
+      <pre class="lang-js">var photosets = document.querySelectorAll(".photoset");
+setPhotoset(photosets);</pre>
+      <h4>Result</h4>
+      <div class="set-example" id="example2">
+        <div class="photoset" data-layout="23"><img src="https://41.media.tumblr.com/ca493b931aed8a348ecf4d768fe158ba/tumblr_ntl3gkXUhJ1qhqme0o9_1280.jpg"><img src="https://40.media.tumblr.com/88c5926f7966818fccb3f8742bdf84c4/tumblr_ntl3gkXUhJ1qhqme0o1_1280.jpg"><img src="https://40.media.tumblr.com/a302157bbca1674eefb2d18bc1b15c09/tumblr_ntl3gkXUhJ1qhqme0o2_1280.jpg"><img src="https://40.media.tumblr.com/a10e1f69de529e8f04821a3208028184/tumblr_ntl3gkXUhJ1qhqme0o7_1280.jpg"><img src="https://41.media.tumblr.com/4d5c8effb0288215c9c15d1f3c794738/tumblr_ntl3gkXUhJ1qhqme0o6_1280.jpg"></div>
+        <div class="photoset" data-layout="22"><img src="https://40.media.tumblr.com/8dfa2986674e33563e1caac48efceb89/tumblr_ntl3gkXUhJ1qhqme0o4_1280.jpg"><img src="https://41.media.tumblr.com/115e9ab4739513722e919344c775813d/tumblr_ntl3gkXUhJ1qhqme0o5_1280.jpg"><img src="https://41.media.tumblr.com/8b1419800b3fa4d9cfde6fffe47ca9ae/tumblr_ntl3gkXUhJ1qhqme0o3_1280.jpg"><img src="https://40.media.tumblr.com/a10e1f69de529e8f04821a3208028184/tumblr_ntl3gkXUhJ1qhqme0o7_1280.jpg"></div>
+      </div>
+      <h3>Example 3: Setting Immediately</h3>
+      <p>For the following example, the <code>a</code> tags will be targeted, with attributes <code>data-height</code> and <code>data-width</code> to set its dimensions. Note that <code>childItem</code> may <em>not necessarily</em> be a direct descendant of the photoset node (but only if the ancestors in the heirarchy are inline) .</p>
+      <h4>HTML</h4>
+      <pre class="lang-html"><code>&lt;div class="photoset" id="#photoset3" data-layout="12" &gt;
 	&lt;a href="1.png" data-height="2448" data-width"3264"&gt;
 		&lt;img src="1.png" /&gt;
 	&lt;/a&gt;
@@ -35,40 +135,61 @@ setPhotoset(photosets);</pre><h4>Result</h4><div class="set-example" id="example
 	&lt;a href="1.png" data-height="1575" data-width"1050"&gt;
 		&lt;img src="1.png" /&gt;
 	&lt;/a&gt;
-&lt;/div&gt;</code></pre><h4>Javascript</h4><pre class="lang-js"><code>var photoset = document.querySelector("#photoset3")
+&lt;/div&gt;</code></pre>
+      <h4>Javascript</h4>
+      <pre class="lang-js"><code>var photoset = document.querySelector("#photoset3")
 setPhotoset(photoset,{
 	immediate:   true, 
 	childItem:   'a'
 	childHeight: 'data-height', 
 	childWidth:  'data-width'
-});</code></pre><h4>Result</h4><div class="set-example" id="example3" data-layout="12"><a href="#" data-width="3264" data-height="2448"><img src="https://40.media.tumblr.com/a10e1f69de529e8f04821a3208028184/tumblr_ntl3gkXUhJ1qhqme0o7_1280.jpg"></a><a href="#" data-width="1050" data-height="700"><img src="https://40.media.tumblr.com/88c5926f7966818fccb3f8742bdf84c4/tumblr_ntl3gkXUhJ1qhqme0o1_1280.jpg"></a><a href="#" data-width="1050" data-height="1575"><img src="https://40.media.tumblr.com/a302157bbca1674eefb2d18bc1b15c09/tumblr_ntl3gkXUhJ1qhqme0o2_1280.jpg"></a></div><h3>Example 4: Gutters</h3><h4>Javascript</h4><pre class="lang-js"><code>setPhotoset(<em>photoset</em>,{gutter:"5px"});</code></pre><h4>Result</h4><div class="set-example" id="example4"><img src="https://40.media.tumblr.com/a10e1f69de529e8f04821a3208028184/tumblr_ntl3gkXUhJ1qhqme0o7_1280.jpg"><img src="https://40.media.tumblr.com/88c5926f7966818fccb3f8742bdf84c4/tumblr_ntl3gkXUhJ1qhqme0o1_1280.jpg"><img src="https://40.media.tumblr.com/a302157bbca1674eefb2d18bc1b15c09/tumblr_ntl3gkXUhJ1qhqme0o2_1280.jpg"><img src="https://41.media.tumblr.com/ca493b931aed8a348ecf4d768fe158ba/tumblr_ntl3gkXUhJ1qhqme0o9_1280.jpg"><img src="https://41.media.tumblr.com/4d5c8effb0288215c9c15d1f3c794738/tumblr_ntl3gkXUhJ1qhqme0o6_1280.jpg"></div></section><footer class="site-footer"><span class="site-footer-owner"><a href="https://github.com/JZumun/setPhotoset">setPhotoset</a> is maintained by <a href="https://github.com/JZumun">JZumun</a>.</span></footer><script src="https://rawgit.com/JZumun/setPhotoset/master/dist/jzmn.setphotoset.min.js"></script><script>if (!setPhotoset) console.log("No setPhotoset found.");
-var photosets = {
-	"#example1" : {layout:"[2,3]"},
-	"#example2 .photoset" : {},
-	"#example3" : { immediate: true, childItem: 'a', childHeight: 'data-height', childWidth: 'data-width' },
-	"#example4" : {layout:"23",gutter:"5px"}
-};
-
-Object.keys(photosets).forEach(function(selector){
-	setPhotoset(document.querySelectorAll(selector), photosets[selector]);
-});</script><script src="https://static.tumblr.com/wvoc5tm/lrQof5c34/jzmn.dom.min.js"></script><script>(function(){
- 	jzmn("pre").addClass(["prettyprint","linenums"]).each(function(el,i){
- 	    el.innerHTML = el.innerHTML.replace(/	/g,"     ");
- 	});
-    
-    var head =  document.getElementsByTagName("head")[0];
-    var prettifier = jzmn.createEl(	"script",{type:"text/javascript"});
-    var pretticss =  jzmn.createEl(	"link",{rel:"stylesheet",type:"text/css",href:"http://static.tumblr.com/wvoc5tm/Osbnu7uzw/jzmn_pre.css"})
-    var prettifierExtension = jzmn.createEl("script",{type:"text/javascript"});
-
-    head.appendChild(prettifier);
-    prettifier.addEventListener("load",function(){
-        prettifierExtension.addEventListener("load",prettyPrint);
-        head.appendChild(prettifierExtension);
-        prettifierExtension.setAttribute("src","https://cdn.rawgit.com/google/code-prettify/master/loader/lang-css.js")
-    });		       
-    prettifier.setAttribute("src","https://cdn.rawgit.com/google/code-prettify/master/loader/prettify.js");
-
-    head.appendChild(pretticss);
-     
- })();</script></body></html>
+});</code></pre>
+      <h4>Result</h4>
+      <div class="set-example" id="example3" data-layout="12"><a href="#" data-width="3264" data-height="2448"><img src="https://40.media.tumblr.com/a10e1f69de529e8f04821a3208028184/tumblr_ntl3gkXUhJ1qhqme0o7_1280.jpg"></a><a href="#" data-width="1050" data-height="700"><img src="https://40.media.tumblr.com/88c5926f7966818fccb3f8742bdf84c4/tumblr_ntl3gkXUhJ1qhqme0o1_1280.jpg"></a><a href="#" data-width="1050" data-height="1575"><img src="https://40.media.tumblr.com/a302157bbca1674eefb2d18bc1b15c09/tumblr_ntl3gkXUhJ1qhqme0o2_1280.jpg"></a></div>
+      <h3>Example 4: Gutters</h3>
+      <h4>Javascript</h4>
+      <pre class="lang-js"><code>setPhotoset(<em>photoset</em>,{gutter:"5px"});</code></pre>
+      <h4>Result</h4>
+      <div class="set-example" id="example4"><img src="https://40.media.tumblr.com/a10e1f69de529e8f04821a3208028184/tumblr_ntl3gkXUhJ1qhqme0o7_1280.jpg"><img src="https://40.media.tumblr.com/88c5926f7966818fccb3f8742bdf84c4/tumblr_ntl3gkXUhJ1qhqme0o1_1280.jpg"><img src="https://40.media.tumblr.com/a302157bbca1674eefb2d18bc1b15c09/tumblr_ntl3gkXUhJ1qhqme0o2_1280.jpg"><img src="https://41.media.tumblr.com/ca493b931aed8a348ecf4d768fe158ba/tumblr_ntl3gkXUhJ1qhqme0o9_1280.jpg"><img src="https://41.media.tumblr.com/4d5c8effb0288215c9c15d1f3c794738/tumblr_ntl3gkXUhJ1qhqme0o6_1280.jpg"></div>
+    </section>
+    <footer class="site-footer"><span class="site-footer-owner"><a href="https://github.com/JZumun/setPhotoset">setPhotoset</a> is maintained by <a href="https://github.com/JZumun">JZumun</a>.</span></footer>
+    <script src="https://rawgit.com/JZumun/setPhotoset/master/dist/jzmn.setphotoset.min.js"></script>
+    <script>
+      if (!setPhotoset) console.log("No setPhotoset found.");
+      var photosets = {
+      	"#example1" : {layout:"[2,3]"},
+      	"#example2 .photoset" : {},
+      	"#example3" : { immediate: true, childItem: 'a', childHeight: 'data-height', childWidth: 'data-width' },
+      	"#example4" : {layout:"23",gutter:"5px"}
+      };
+      
+      Object.keys(photosets).forEach(function(selector){
+      	setPhotoset(document.querySelectorAll(selector), photosets[selector]);
+      });
+    </script>
+    <script src="https://static.tumblr.com/wvoc5tm/lrQof5c34/jzmn.dom.min.js"></script>
+    <script>
+      (function(){
+       	jzmn("pre").addClass(["prettyprint","linenums"]).each(function(el,i){
+       	    el.innerHTML = el.innerHTML.replace(/	/g,"     ");
+       	});
+          
+          var head =  document.getElementsByTagName("head")[0];
+          var prettifier = jzmn.createEl(	"script",{type:"text/javascript"});
+          var pretticss =  jzmn.createEl(	"link",{rel:"stylesheet",type:"text/css",href:"http://static.tumblr.com/wvoc5tm/Osbnu7uzw/jzmn_pre.css"})
+          var prettifierExtension = jzmn.createEl("script",{type:"text/javascript"});
+      
+          head.appendChild(prettifier);
+          prettifier.addEventListener("load",function(){
+              prettifierExtension.addEventListener("load",prettyPrint);
+              head.appendChild(prettifierExtension);
+              prettifierExtension.setAttribute("src","https://cdn.rawgit.com/google/code-prettify/master/loader/lang-css.js")
+          });		       
+          prettifier.setAttribute("src","https://cdn.rawgit.com/google/code-prettify/master/loader/prettify.js");
+      
+          head.appendChild(pretticss);
+           
+       })();
+    </script>
+  </body>
+</html>

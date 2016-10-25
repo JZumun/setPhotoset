@@ -154,6 +154,12 @@ td {
 	margin:1em 0;
 }
 
+.photoset-loading {
+	overflow-y:hidden;
+	max-height:10em;
+	opacity:0.25;
+}
+
 /*Structure*/
 .page-header, .site-footer {
     padding: 1em;
@@ -223,9 +229,17 @@ a:hover {
 	background-color: #832204;
 }
 
+p code, table code  {
+	display:inline-block;
+	font-size:0.9em;
+	padding:0.1rem 0.5em;
+	background-color: #d4cfc9;
+}
+
 .page-header {
     background-image: url(https://images.unsplash.com/photo-1476813001184-9044d31e0ad1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&s=ce9ddc4db870bed74b934db460de8246);
     background-size:cover;
     background-blend-mode: multiply;
     background-color: #832204;
+    box-shadow: 0 0.25em 0 0 #14100f;
 }

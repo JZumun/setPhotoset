@@ -37,19 +37,19 @@ html(lang="en")
 						name: "layout", 
 						type: "String || [Number]", 
 						default: "null", 
-						description: "defines layout of photoset (number of items per row. e.g. '121' or [1,2,1]). If falsy, layout information is aquired from the attribute name defined by codelayoutAttribute/code if existing, or else nothing happens."
+						description: "defines layout of photoset (number of items per row. e.g. '121' or [1,2,1]). If falsy, layout information is aquired from the attribute name defined by <code>layoutAttribute</code< if existing, or else nothing happens."
 					},
 					{
 						name: "layoutAttribute", 
 						type: "String", 
 						default: "data-layout", 
-						description: "attribute name from which layout information will be derived, if codelayout/code property is falsy."
+						description: "attribute name from which layout information will be derived, if <code>layout</code> property is falsy."
 					},
 					{
 						name: "immediate", 
 						type: "Boolean", 
 						default: "false",
-						description: "If false, waits for all children defined by codechildItem/code to load before executing layout application. If true immediately applies layout, making use of height and width data provided in the attributes defined in codechildHeight/code and codechildWidth/code of codechildItems/code."
+						description: "If false, waits for all children defined by <code>childItem</code> to load before executing layout application. If true immediately applies layout, making use of height and width data provided in the attributes defined in <code>childHeight</code> and <code>childWidth</code> of childItems."
 					},
 					{
 						name: "childItem", 
@@ -61,13 +61,13 @@ html(lang="en")
 						name: "childHeight", 
 						type: "String", 
 						default: "height",
-						description: "name of attribute on each childItem that lists item's height."
+						description: "name of attribute on each <code>childItem</code> that lists item's height."
 					},
 					{
 						name: "childWidth", 
 						type: "String", 
 						default: "width",
-						description: "name of attribute on each childItem that lists item's width."
+						description: "name of attribute on each <code>childItem</code> that lists item's width."
 					},
 					{
 						name: "gutter", 
@@ -79,7 +79,7 @@ html(lang="en")
 						name: "createSheet", 
 						type: "Boolean", 
 						default: "true",
-						description: "boolean determining whether a stylesheet is to be created containing the styling required for layouting (if it doesn't yet exist). Set to false if you wish to supply your own stylesheet. See setphotoset-example.css for sample."
+						description: "boolean determining whether a stylesheet is to be created containing the styling required for layouting (if it doesn't yet exist). Set to false if you wish to supply your own stylesheet. See <a href='https://github.com/JZumun/setPhotoset/blob/master/src/setphotoset-example.css'>setphotoset-example.css</a> for sample."
 					},
 				]
 			table
@@ -123,7 +123,7 @@ html(lang="en")
 				img(src="https://41.media.tumblr.com/4d5c8effb0288215c9c15d1f3c794738/tumblr_ntl3gkXUhJ1qhqme0o6_1280.jpg")
 
 			h3 Example 2: Multiple Photosets
-			p By defining a codelayoutAttribute/code property and then setting it as an attribute on each individual photoset (or setting a 'data-layout' attribute which is the default value for the option), multiple sets can be targeted and styled by the same line of javascript while applying different layouts.
+			p By defining a <code>layoutAttribute</code> property and then setting it as an attribute on each individual photoset (or setting a 'data-layout' attribute which is the default value for the option), multiple sets can be targeted and styled by the same line of javascript while applying different layouts.
 			h4 HTML
 			pre.lang-html
 				code.
@@ -158,7 +158,7 @@ html(lang="en")
 					img(src="https://41.media.tumblr.com/8b1419800b3fa4d9cfde6fffe47ca9ae/tumblr_ntl3gkXUhJ1qhqme0o3_1280.jpg")
 					img(src="https://40.media.tumblr.com/a10e1f69de529e8f04821a3208028184/tumblr_ntl3gkXUhJ1qhqme0o7_1280.jpg")
 			h3 Example 3: Setting Immediately
-			p For the following example, the codea/code tags will be targeted, with attributes codedata-height/code and codedata-width/code to set its dimensions. Note that codechildItem/code may emnot necessarily/em be a direct descendant of the photoset node.
+			p For the following example, the <code>a</code> tags will be targeted, with attributes <code>data-height</code> and <code>data-width</code> to set its dimensions. Note that <code>childItem</code> may <em>not necessarily</em> be a direct descendant of the photoset node (but only if the ancestors in the heirarchy are inline) .
 			h4 HTML
 			pre.lang-html
 				code.
