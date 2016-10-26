@@ -169,6 +169,9 @@ td {
 .page-header {
 	border-bottom: 0.25rem solid;
 }
+.project-name {
+	font-size:2.5em;
+}
 
 .page-links {
 	position:relative;
@@ -239,7 +242,7 @@ p code, table code  {
 .page-header {
     background-image: url(https://images.unsplash.com/photo-1476813001184-9044d31e0ad1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&s=ce9ddc4db870bed74b934db460de8246);
     background-size:cover;
-    background-blend-mode: multiply;
+    background-blend-mode: darken;
     background-color: #832204;
     box-shadow: 0 0.25em 0 0 #14100f;
 }
