@@ -220,7 +220,7 @@ a:hover {
 	color: #832204;
 }
 
-.button {
+.button, .item {
 	color: #f2f0f0;
 	background-color: #a83018;
 	border-color: #832204;

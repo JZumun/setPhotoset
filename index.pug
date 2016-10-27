@@ -113,7 +113,7 @@ html(lang="en")
 			pre.lang-js
 				code.
 					var photoset = document.querySelector("#photoset1");
-					setPhotoset(photoset,{layout:"23"});
+					setPhotoset(photoset,{layout:"23", gutter:"5px"});
 			h4 Result
 			#example1.photoset.set-example
 				img(src="https://41.media.tumblr.com/ca493b931aed8a348ecf4d768fe158ba/tumblr_ntl3gkXUhJ1qhqme0o9_1280.jpg")
@@ -127,7 +127,7 @@ html(lang="en")
 			h4 HTML
 			pre.lang-html
 				code.
-					&lt;div class="photoset" id="#photoset2-1" data-layout="23"&gt;
+					&lt;div class="photoset" id="#photoset2-1" data-layout="[2,3]"&gt;
 						&lt;img src="1.png" /&gt;
 						&lt;img src="2.png" /&gt;
 						&lt;img src="3.png" /&gt;
@@ -143,7 +143,7 @@ html(lang="en")
 			h4 Javascript
 			pre.lang-js.
 				var photosets = document.querySelectorAll(".photoset");
-				setPhotoset(photosets);
+				setPhotoset(photosets, {gutter: 5});
 			h4 Result
 			div#example2.set-example
 				.photoset(data-layout="23")
@@ -158,51 +158,37 @@ html(lang="en")
 					img(src="https://41.media.tumblr.com/8b1419800b3fa4d9cfde6fffe47ca9ae/tumblr_ntl3gkXUhJ1qhqme0o3_1280.jpg")
 					img(src="https://40.media.tumblr.com/a10e1f69de529e8f04821a3208028184/tumblr_ntl3gkXUhJ1qhqme0o7_1280.jpg")
 			h3 Example 3: Setting Immediately
-			p For the following example, the <code>a</code> tags will be targeted, with attributes <code>data-height</code> and <code>data-width</code> to set its dimensions. Note that <code>childItem</code> may <em>not necessarily</em> be a direct descendant of the photoset node (but only if the ancestors in the heirarchy are inline) .
+			p If the height and width information is already available (e.g. if the 'height' and 'width' attributes on the image are present), then you can set <code>immediate</code> to true and the layout will be calculated and set without needing to wait for the images to load.
 			h4 HTML
 			pre.lang-html
 				code.
 					&lt;div class="photoset" id="#photoset3" data-layout="12" &gt;
-						&lt;a href="1.png" data-height="2448" data-width"3264"&gt;
-							&lt;img src="1.png" /&gt;
+						&lt;a href="1.png"&gt;
+							&lt;img src="1.png" height="2448" width"3264" /&gt;
 						&lt;/a&gt;
-						&lt;a href="2.png" data-height="700" data-width"1050"&gt;
-							&lt;img src="2.png" /&gt;
+						&lt;a href="2.png" &gt;
+							&lt;img src="2.png" height="700" width"1050" /&gt;
 						&lt;/a&gt;
-						&lt;a href="1.png" data-height="1575" data-width"1050"&gt;
-							&lt;img src="1.png" /&gt;
+						&lt;a href="1.png" &gt;
+							&lt;img src="1.png" height="1575" width"1050" /&gt;
 						&lt;/a&gt;
 					&lt;/div&gt;
 			h4 Javascript
 			pre.lang-js
 				code.
-					var photoset = document.querySelector("#photoset3")
+					var photoset = document.querySelector("#photoset3");
 					setPhotoset(photoset,{
-						immediate:   true, 
-						childItem:   'a'
-						childHeight: 'data-height', 
-						childWidth:  'data-width'
+						immediate: true,
+						gutter: "0.25em"
 					});
 			h4 Result
 			#example3.set-example(data-layout="12")
-				a(href="#",data-width="3264",data-height="2448")
-					img(src="https://40.media.tumblr.com/a10e1f69de529e8f04821a3208028184/tumblr_ntl3gkXUhJ1qhqme0o7_1280.jpg")
-				a(href="#",data-width="1050",data-height="700")
-					img(src="https://40.media.tumblr.com/88c5926f7966818fccb3f8742bdf84c4/tumblr_ntl3gkXUhJ1qhqme0o1_1280.jpg")
-				a(href="#",data-width="1050",data-height="1575")
-					img(src="https://40.media.tumblr.com/a302157bbca1674eefb2d18bc1b15c09/tumblr_ntl3gkXUhJ1qhqme0o2_1280.jpg")
-			h3 Example 4: Gutters
-			h4 Javascript
-			pre.lang-js
-					code.
-						setPhotoset(<em>photoset</em>,{gutter:"5px"});
-			h4 Result
-			#example4.set-example
-				img(src="https://40.media.tumblr.com/a10e1f69de529e8f04821a3208028184/tumblr_ntl3gkXUhJ1qhqme0o7_1280.jpg")
-				img(src="https://40.media.tumblr.com/88c5926f7966818fccb3f8742bdf84c4/tumblr_ntl3gkXUhJ1qhqme0o1_1280.jpg")
-				img(src="https://40.media.tumblr.com/a302157bbca1674eefb2d18bc1b15c09/tumblr_ntl3gkXUhJ1qhqme0o2_1280.jpg")
-				img(src="https://41.media.tumblr.com/ca493b931aed8a348ecf4d768fe158ba/tumblr_ntl3gkXUhJ1qhqme0o9_1280.jpg")
-				img(src="https://41.media.tumblr.com/4d5c8effb0288215c9c15d1f3c794738/tumblr_ntl3gkXUhJ1qhqme0o6_1280.jpg")
+				a(href="#")
+					img(src="https://40.media.tumblr.com/a10e1f69de529e8f04821a3208028184/tumblr_ntl3gkXUhJ1qhqme0o7_1280.jpg",width="3264",height="2448")
+				a(href="#")
+					img(src="https://40.media.tumblr.com/88c5926f7966818fccb3f8742bdf84c4/tumblr_ntl3gkXUhJ1qhqme0o1_1280.jpg",width="1050",height="700")
+				a(href="#")
+					img(src="https://40.media.tumblr.com/a302157bbca1674eefb2d18bc1b15c09/tumblr_ntl3gkXUhJ1qhqme0o2_1280.jpg",width="1050",height="1575")
 
 		footer.site-footer
 			span.site-footer-owner <a href="https://github.com/JZumun/setPhotoset">setPhotoset</a> is maintained by <a href="https://github.com/JZumun">JZumun</a>.
@@ -212,10 +198,9 @@ html(lang="en")
 		script.
 			if (!setPhotoset) console.log("No setPhotoset found.");
 			var photosets = {
-				"#example1" : {layout:"[2,3]"},
-				"#example2 .photoset" : {},
-				"#example3" : { immediate: true, childItem: 'a', childHeight: 'data-height', childWidth: 'data-width' },
-				"#example4" : {layout:"23",gutter:"5px"}
+				"#example1" : {layout:"23",gutter:"5px"},
+				"#example2 .photoset" : {gutter:5},
+				"#example3" : { immediate: true, gutter: "0.25em" }
 			};
 
 			Object.keys(photosets).forEach(function(selector){
