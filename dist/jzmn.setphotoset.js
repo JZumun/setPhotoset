@@ -95,6 +95,7 @@ var applyLayout = function applyLayout(_ref3) {
 	var childItem = _ref3.childItem;
 	var childHeight = _ref3.childHeight;
 	var childWidth = _ref3.childWidth;
+	var immediate = _ref3.immediate;
 
 	return function (photoset) {
 		var items = Array.from(photoset.querySelectorAll(childItem));
@@ -121,7 +122,7 @@ var applyLayout = function applyLayout(_ref3) {
 					lastRow.push(item);
 				}
 
-				var aspect = item.matches("img") ? item.naturalHeight / item.naturalWidth : parseInt(item.getAttribute(childHeight)) / parseInt(item.getAttribute(childWidth));
+				var aspect = item.matches("img") && immediate == false ? item.naturalHeight / item.naturalWidth : parseInt(item.getAttribute(childHeight)) / parseInt(item.getAttribute(childWidth));
 
 				return Number.isNaN(aspect) ? 1 : aspect;
 			});
@@ -205,9 +206,9 @@ var setPhotoset = function setPhotoset(set) {
 		for (var _iterator = set[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 			var photoset = _step.value;
 
-			photoset.classList.add("photoset-loading", "photoset-container", "photoset-" + grouping);
 			layout = sanitizeLayout(layout || photoset.getAttribute(layoutAttribute));
-			loadPhotoset(photoset, { immediate: immediate, childItem: childItem }).then(applyLayout({ layout: layout, gutter: gutter, childItem: childItem, childHeight: childHeight, childWidth: childWidth })).then(callback);
+			photoset.classList.add("photoset-loading", "photoset-container", "photoset-" + grouping);
+			loadPhotoset(photoset, { immediate: immediate, childItem: childItem }).then(applyLayout({ layout: layout, gutter: gutter, childItem: childItem, childHeight: childHeight, childWidth: childWidth, immediate: immediate })).then(callback);
 		}
 	} catch (err) {
 		_didIteratorError = true;

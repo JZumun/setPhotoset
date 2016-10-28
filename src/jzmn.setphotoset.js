@@ -66,7 +66,7 @@ const loadPhotoset = (photoset, {immediate, childItem}) => {
 	});
 }
 
-const applyLayout = ({layout,gutter,childItem, childHeight, childWidth}) => {
+const applyLayout = ({layout,gutter,childItem, childHeight, childWidth,immediate}) => {
 	return (photoset) => {
 		const items = Array.from(photoset.querySelectorAll(childItem));
 		const numRows = layout.length;
@@ -83,7 +83,7 @@ const applyLayout = ({layout,gutter,childItem, childHeight, childWidth}) => {
 				if (itemIndex === numItems - 1) { lastColumn.push(item); }
 				if (layoutIndex === numRows - 1) { lastRow.push(item); }
 
-				const aspect = (item.matches("img")) ? item.naturalHeight/item.naturalWidth
+				const aspect = (item.matches("img") && immediate==false) ? item.naturalHeight/item.naturalWidth
 									: parseInt(item.getAttribute(childHeight)) / parseInt(item.getAttribute(childWidth));
 
 				return Number.isNaN(aspect) ? 1 : aspect;
@@ -137,10 +137,10 @@ const setPhotoset = function(set,{
 	if (createSheet) { createStyleSheet({grouping,gutter}); }
 
 	for(let photoset of set) {
-		photoset.classList.add("photoset-loading","photoset-container",`photoset-${grouping}`);
 		layout = sanitizeLayout(layout || photoset.getAttribute(layoutAttribute));
+		photoset.classList.add("photoset-loading","photoset-container",`photoset-${grouping}`);
 		loadPhotoset(photoset,{ immediate, childItem})
-			.then(applyLayout({layout,gutter, childItem, childHeight, childWidth }))
+			.then(applyLayout({layout,gutter, childItem, childHeight, childWidth,immediate}))
 			.then(callback);
 	}
 	
