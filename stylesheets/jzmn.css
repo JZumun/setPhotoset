@@ -160,6 +160,19 @@ td {
 	opacity:0.25;
 }
 
+td.data-type {
+    white-space: nowrap;
+    font-size: small;
+    text-align: center;
+    font-family: monospace;
+}
+
+td.data-default {
+    font-size: small;
+    font-style: italic;
+    white-space: nowrap;
+}
+
 /*Structure*/
 .page-header, .site-footer {
     padding: 1em;
