@@ -175,8 +175,10 @@ var applyLayout = function applyLayout(photoset, _ref5) {
 			if (lastColumn) item.classList.add("photoset-last-column");
 			if (lastRow) item.classList.add("photoset-last-row");
 		});
+
+		photoset.classList.remove("photoset-loading");
+		return photoset;
 	};
-	return photoset;
 };
 
 var setPhotoset = function setPhotoset(set) {

@@ -125,14 +125,16 @@ const applyLayout = (photoset,{childItem,gutter}) => {
 		widths.forEach(({width,numItems,positioning:{firstColumn,lastColumn,lastRow}},itemIndex)=>{
 			const item = items[itemIndex];
 			item.classList.add("photoset-item");
-			item.classList.remove("photoset-last-column","photoset-last-row","photoset-first-column","photoset-loading");
+			item.classList.remove("photoset-last-column","photoset-last-row","photoset-first-column");
 			item.setAttribute("style",`width: ${width}%;` + ( gutter ? `width: calc(${width/100}*(100% - ${numItems - 1}*(${gutter})));` : "" ));
 			if (firstColumn) item.classList.add("photoset-first-column");
 			if (lastColumn) item.classList.add("photoset-last-column");
 			if (lastRow) item.classList.add("photoset-last-row");
 		});
+
+		photoset.classList.remove("photoset-loading");
+		return photoset;
 	}
-	return photoset;
 }
 
 const setPhotoset = function(set,{
