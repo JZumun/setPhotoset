@@ -28,9 +28,9 @@ var generateId = function generateId() {
 };
 var el = function el(element) {
 	if (!element) return [];
-	if (isString(element)) return document.querySelectorAll(element);
+	if (isString(element)) return arrify(document.querySelectorAll(element));
 	if (element.nodeType) return [element];
-	if (element.length) return element;
+	if (element.length) return arrify(element);
 };
 
 var createNewStyleSheet = function createNewStyleSheet() {
@@ -46,7 +46,7 @@ var createNewStyleSheet = function createNewStyleSheet() {
 
 	return styles;
 };
-var groupings = new Set();
+var groupings = {};
 var styles = document.querySelector("#jzmn-setphotoset-styles");
 var createStyleSheet = function createStyleSheet(_ref) {
 	var grouping = _ref.grouping;
@@ -55,34 +55,39 @@ var createStyleSheet = function createStyleSheet(_ref) {
 	if (!styles) {
 		styles = createNewStyleSheet();
 	}
-	if (gutter && !groupings.has(grouping)) {
-		groupings.add(grouping);
+	if (gutter && !groupings[grouping]) {
+		groupings[grouping] = gutter;
 		[".photoset-" + grouping + " .photoset-item:not(.photoset-last-column) { margin-right: calc(" + gutter + "); }", ".photoset-" + grouping + " .photoset-item:not(.photoset-last-row) { margin-bottom: calc(" + gutter + "); }"].forEach(function (rule) {
 			return styles.sheet.insertRule(rule, styles.sheet.cssRules.length);
 		});
 	}
 };
-
 var loadPhotoset = function loadPhotoset(photoset, _ref2) {
 	var immediate = _ref2.immediate;
 	var childItem = _ref2.childItem;
+	var childHeight = _ref2.childHeight;
+	var childWidth = _ref2.childWidth;
 
 	return new Promise(function (resolve, reject) {
-		if (immediate || childItem != "img") {
-			resolve(photoset);
+		var items = arrify(photoset.querySelectorAll(childItem));
+		var complete = function complete(_) {
+			return resolve(items);
+		};
+		var goal = items.length;
+
+		if (immediate) {
+			complete();
 		};
 
 		var incrementLoaded = function incrementLoaded(evt) {
 			if (evt.target && evt.target.matches(childItem) && --goal === 0) {
-				resolve(photoset);
+				complete();
 			}
 		};
-		var items = arrify(photoset.querySelectorAll(childItem));
-		var goal = items.length;
 
 		items.forEach(function (img, i) {
 			if (img.complete) {
-				if (--goal === 0) resolve(photoset);
+				if (--goal === 0) complete();
 			}
 		});
 		photoset.addEventListener("load", incrementLoaded, true);
@@ -90,109 +95,115 @@ var loadPhotoset = function loadPhotoset(photoset, _ref2) {
 	});
 };
 
-var applyLayout = function applyLayout(_ref3) {
-	var layout = _ref3.layout;
-	var gutter = _ref3.gutter;
-	var childItem = _ref3.childItem;
+var calcAspects = function calcAspects(natural) {
+	var _ref3 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
 	var childHeight = _ref3.childHeight;
 	var childWidth = _ref3.childWidth;
-	var immediate = _ref3.immediate;
 
-	return function (photoset) {
-		var items = Array.from(photoset.querySelectorAll(childItem));
+	return function (items) {
+		return items.map(function (item, i) {
+			if (natural) {
+				return item.naturalHeight / item.naturalWidth;
+			} else {
+				var aspect = parseInt(item.getAttribute(childHeight)) / parseInt(item.getAttribute(childWidth));
+				return isNan(aspect) ? 1 : aspect;
+			}
+		});
+	};
+};
+
+var calcLayout = function calcLayout(_ref4) {
+	var layout = _ref4.layout;
+	var gutter = _ref4.gutter;
+
+	return function (aspects) {
 		var numRows = layout.length;
-		var lastColumn = [];
-		var lastRow = [];
-		var firstColumn = [];
-
 		var widths = [];
 
 		layout.reduce(function (rowStart, rowLength, layoutIndex, layoutArray) {
 			var rowEnd = rowStart + rowLength;
-			var rowItems = items.slice(rowStart, rowEnd);
+			var rowAspects = aspects.slice(rowStart, rowEnd);
 			var numItems = rowItems.length;
 
-			var aspects = rowItems.map(function (item, itemIndex) {
-				if (itemIndex === 0) {
-					firstColumn.push(item);
-				}
-				if (itemIndex === numItems - 1) {
-					lastColumn.push(item);
-				}
-				if (layoutIndex === numRows - 1) {
-					lastRow.push(item);
-				}
-
-				var aspect = item.matches("img") && immediate == false ? item.naturalHeight / item.naturalWidth : parseInt(item.getAttribute(childHeight)) / parseInt(item.getAttribute(childWidth));
-
-				return Number.isNaN(aspect) ? 1 : aspect;
-			});
-
 			var firstWidth = 0;
-			var rowWidths = aspects.forEach(function (currAspect, itemIndex) {
+			var rowWidths = rowAspects.forEach(function (currAspect, itemIndex) {
 				var width = 0;
 				if (itemIndex == 0) {
-					width = firstWidth = 100 / aspects.reduce(function (prev, curr) {
+					width = firstWidth = 100 / rowAspects.reduce(function (prev, curr) {
 						return prev + currAspect / curr;
 					}, 0);
 				} else {
-					width = firstWidth * (aspects[0] / currAspect);
+					width = firstWidth * (rowAspects[0] / currAspect);
 				}
 
-				widths.push({ width: width, numItems: numItems });
+				var positioning = {
+					firstColumn: itemIndex === 0,
+					lastColumn: itemIndex === numItems - 1,
+					lastRow: layoutIndex === numRows - 1
+				};
+
+				widths.push({ width: width, numItems: numItems, positioning: positioning });
 			});
 
 			return rowEnd;
 		}, 0);
 
-		widths.forEach(function (_ref4, itemIndex) {
-			var width = _ref4.width;
-			var numItems = _ref4.numItems;
+		return widths;
+	};
+};
+
+var applyLayout = function applyLayout(photoset, _ref5) {
+	var childItem = _ref5.childItem;
+	var gutter = _ref5.gutter;
+
+	var items = arrify(photoset.querySelectorAll(childItem));
+	return function (widths) {
+		widths.forEach(function (_ref6, itemIndex) {
+			var width = _ref6.width;
+			var numItems = _ref6.numItems;
+			var _ref6$positioning = _ref6.positioning;
+			var firstColumn = _ref6$positioning.firstColumn;
+			var lastColumn = _ref6$positioning.lastColumn;
+			var lastRow = _ref6$positioning.lastRow;
 
 			var item = items[itemIndex];
 			item.classList.add("photoset-item");
 			item.classList.remove("photoset-last-column", "photoset-last-row", "photoset-first-column");
 			item.setAttribute("style", "width: " + width + "%;" + (gutter ? "width: calc(" + width / 100 + "*(100% - " + (numItems - 1) + "*(" + gutter + ")));" : ""));
+			if (firstColumn) item.classList.add("photoset-first-column");
+			if (lastColumn) item.classList.add("photoset-last-column");
+			if (lastRow) item.classList.add("photoset-last-row");
 		});
-		lastColumn.forEach(function (item) {
-			return item.classList.add("photoset-last-column");
-		});
-		lastRow.forEach(function (item) {
-			return item.classList.add("photoset-last-row");
-		});
-		firstColumn.forEach(function (item) {
-			return item.classList.add("photoset-first-column");
-		});
-		photoset.classList.remove("photoset-loading");
-
-		return photoset;
 	};
+	return photoset;
 };
 
 var setPhotoset = function setPhotoset(set) {
-	var _ref5 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+	var _ref7 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-	var _ref5$layout = _ref5.layout;
-	var layout = _ref5$layout === undefined ? null : _ref5$layout;
-	var _ref5$immediate = _ref5.immediate;
-	var immediate = _ref5$immediate === undefined ? false : _ref5$immediate;
-	var _ref5$childItem = _ref5.childItem;
-	var childItem = _ref5$childItem === undefined ? "img" : _ref5$childItem;
-	var _ref5$childHeight = _ref5.childHeight;
-	var childHeight = _ref5$childHeight === undefined ? "height" : _ref5$childHeight;
-	var _ref5$childWidth = _ref5.childWidth;
-	var childWidth = _ref5$childWidth === undefined ? "width" : _ref5$childWidth;
-	var _ref5$gutter = _ref5.gutter;
-	var gutter = _ref5$gutter === undefined ? 0 : _ref5$gutter;
-	var _ref5$callback = _ref5.callback;
-	var callback = _ref5$callback === undefined ? noop : _ref5$callback;
-	var _ref5$createSheet = _ref5.createSheet;
-	var createSheet = _ref5$createSheet === undefined ? true : _ref5$createSheet;
-	var _ref5$layoutAttribute = _ref5.layoutAttribute;
-	var layoutAttribute = _ref5$layoutAttribute === undefined ? "data-layout" : _ref5$layoutAttribute;
+	var _ref7$layout = _ref7.layout;
+	var layout = _ref7$layout === undefined ? null : _ref7$layout;
+	var _ref7$immediate = _ref7.immediate;
+	var immediate = _ref7$immediate === undefined ? false : _ref7$immediate;
+	var _ref7$childItem = _ref7.childItem;
+	var childItem = _ref7$childItem === undefined ? "img" : _ref7$childItem;
+	var _ref7$childHeight = _ref7.childHeight;
+	var childHeight = _ref7$childHeight === undefined ? "height" : _ref7$childHeight;
+	var _ref7$childWidth = _ref7.childWidth;
+	var childWidth = _ref7$childWidth === undefined ? "width" : _ref7$childWidth;
+	var _ref7$gutter = _ref7.gutter;
+	var gutter = _ref7$gutter === undefined ? 0 : _ref7$gutter;
+	var _ref7$callback = _ref7.callback;
+	var callback = _ref7$callback === undefined ? noop : _ref7$callback;
+	var _ref7$createSheet = _ref7.createSheet;
+	var createSheet = _ref7$createSheet === undefined ? true : _ref7$createSheet;
+	var _ref7$layoutAttribute = _ref7.layoutAttribute;
+	var layoutAttribute = _ref7$layoutAttribute === undefined ? "data-layout" : _ref7$layoutAttribute;
 	var grouping = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : generateId();
 
 
+	immediate = immediate || childItem != 'img';
 	set = el(set);
 	gutter = sanitizeGutter(gutter);
 	if (createSheet) {
@@ -202,7 +213,8 @@ var setPhotoset = function setPhotoset(set) {
 	set.forEach(function (photoset) {
 		layout = sanitizeLayout(layout || photoset.getAttribute(layoutAttribute));
 		photoset.classList.add("photoset-loading", "photoset-container", "photoset-" + grouping);
-		loadPhotoset(photoset, { immediate: immediate, childItem: childItem }).then(applyLayout({ layout: layout, gutter: gutter, childItem: childItem, childHeight: childHeight, childWidth: childWidth, immediate: immediate })).then(callback);
+
+		loadPhotoset(photoset, { immediate: immediate, childItem: childItem }).then(calcAspects({ immediate: immediate, childHeight: childHeight, childWidth: childWidth })).then(calcLayout({ layout: layout })).then(applyLayout(photoset, { childItem: childItem, gutter: gutter })).then(callback);
 	});
 
 	return set;

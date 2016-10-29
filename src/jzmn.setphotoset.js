@@ -13,9 +13,9 @@ const sanitizeGutter = (gutter) => gutter && (gutter + (isString(gutter) ? "" : 
 const generateId = ()=>Math.floor(100000*Math.random()+1).toString();
 const el = (element) => {
 	if (!element) return [];
-	if (isString(element)) return document.querySelectorAll(element);
+	if (isString(element)) return arrify(document.querySelectorAll(element));
 	if (element.nodeType) return [element];
-	if (element.length) return element;
+	if (element.length) return arrify(element);
 }
 
 const createNewStyleSheet = () => {
@@ -46,79 +46,93 @@ const createStyleSheet = ({grouping, gutter}) => {
 		].forEach(rule=>styles.sheet.insertRule(rule,styles.sheet.cssRules.length));
 	}
 }
-
-const loadPhotoset = (photoset, {immediate, childItem}) => {
+const loadPhotoset = (photoset, {immediate, childItem,childHeight,childWidth}) => {
 	return new Promise((resolve,reject) => {
-		if (immediate || childItem != "img") { resolve(photoset) };
-
-		const incrementLoaded = (evt) => {
-			if (evt.target && evt.target.matches(childItem) && --goal === 0) { 
-				resolve(photoset);
-			}
-		} 
 		const items = arrify(photoset.querySelectorAll(childItem));
+		const complete = _=> resolve(items);
 		let goal = items.length;
 
+		if (immediate) { complete() };
+		
+		const incrementLoaded = (evt) => {
+			if (evt.target && evt.target.matches(childItem) && --goal === 0) { 
+				complete();
+			}
+		} 
+		
+		
+
 		items.forEach((img,i)=> { if (img.complete) {
-			if (--goal === 0) resolve(photoset);
+			if (--goal === 0) complete();
 		}});
 		photoset.addEventListener("load",incrementLoaded,true);
 		photoset.addEventListener("error",incrementLoaded,true);
 	});
 }
 
-const applyLayout = ({layout,gutter,childItem, childHeight, childWidth,immediate}) => {
-	return (photoset) => {
-		const items = Array.from(photoset.querySelectorAll(childItem));
+const calcAspects = (natural, {childHeight,childWidth}={}) => {
+	return (items) => {
+		return items.map((item,i)=>{
+			if (natural) {
+				return item.naturalHeight/item.naturalWidth
+			} else {
+				const aspect = parseInt(item.getAttribute(childHeight)) / parseInt(item.getAttribute(childWidth))
+				return isNan(aspect) ? 1 : aspect;
+			}
+		})
+	}
+}
+
+const calcLayout = ({layout,gutter}) => {
+	return (aspects) => {
 		const numRows = layout.length;
-		const [lastColumn,lastRow,firstColumn] = [[],[],[]];
 		const widths = [];
 
 		layout.reduce( (rowStart,rowLength,layoutIndex, layoutArray) => {
 			const rowEnd = rowStart + rowLength;
-			const rowItems = items.slice(rowStart,rowEnd);
+			const rowAspects = aspects.slice(rowStart,rowEnd);
 			const numItems = rowItems.length;
 
-			const aspects = rowItems.map((item,itemIndex)=>{
-				if (itemIndex === 0) { firstColumn.push(item); }
-				if (itemIndex === numItems - 1) { lastColumn.push(item); }
-				if (layoutIndex === numRows - 1) { lastRow.push(item); }
-
-				const aspect = (item.matches("img") && immediate==false) ? item.naturalHeight/item.naturalWidth
-									: parseInt(item.getAttribute(childHeight)) / parseInt(item.getAttribute(childWidth));
-
-				return Number.isNaN(aspect) ? 1 : aspect;
-			});
-
 			let firstWidth = 0;
-			const rowWidths = aspects.forEach((currAspect,itemIndex)=>{
+			const rowWidths = rowAspects.forEach((currAspect,itemIndex)=>{
 				let width = 0;
 				if (itemIndex == 0) { 
-					width = firstWidth = 100/aspects.reduce((prev,curr)=>prev + currAspect/curr,0); 
+					width = firstWidth = 100/rowAspects.reduce((prev,curr)=>prev + currAspect/curr,0); 
 				}
 				else { 
-					width =  firstWidth*( aspects[0]/currAspect ); 
+					width =  firstWidth*( rowAspects[0]/currAspect ); 
 				}
 
-				widths.push({width, numItems});
+				const positioning = {
+					firstColumn: itemIndex===0,
+					lastColumn: itemIndex ===numItems-1,
+					lastRow: layoutIndex=== numRows - 1
+				}
+
+				widths.push({width, numItems, positioning});
 			});
 
 			return rowEnd;
 		},0);
 
-		widths.forEach(({width,numItems},itemIndex)=>{
+		return widths;
+	}
+}
+
+const applyLayout = (photoset,{childItem,gutter}) => {
+	const items = arrify(photoset.querySelectorAll(childItem));
+	return (widths) => {
+		widths.forEach(({width,numItems,positioning:{firstColumn,lastColumn,lastRow}},itemIndex)=>{
 			const item = items[itemIndex];
 			item.classList.add("photoset-item");
 			item.classList.remove("photoset-last-column","photoset-last-row","photoset-first-column");
 			item.setAttribute("style",`width: ${width}%;` + ( gutter ? `width: calc(${width/100}*(100% - ${numItems - 1}*(${gutter})));` : "" ));
-		})
-		lastColumn.forEach(item=>item.classList.add("photoset-last-column"));
-		lastRow.forEach(item=>item.classList.add("photoset-last-row"));	
-		firstColumn.forEach(item=>item.classList.add("photoset-first-column"));
-		photoset.classList.remove("photoset-loading");
-
-		return photoset;
+			if (firstColumn) item.classList.add("photoset-first-column");
+			if (lastColumn) item.classList.add("photoset-last-column");
+			if (lastRow) item.classList.add("photoset-last-row");
+		});
 	}
+	return photoset;
 }
 
 const setPhotoset = function(set,{
@@ -133,6 +147,7 @@ const setPhotoset = function(set,{
 	layoutAttribute = "data-layout"
 }={},grouping=generateId()) {
 	
+	immediate = immediate || childItem != 'img';
 	set = el(set);
 	gutter = sanitizeGutter(gutter);
 	if (createSheet) { createStyleSheet({grouping,gutter}); }
@@ -140,8 +155,11 @@ const setPhotoset = function(set,{
 	set.forEach(photoset => {
 		layout = sanitizeLayout(layout || photoset.getAttribute(layoutAttribute));
 		photoset.classList.add("photoset-loading","photoset-container",`photoset-${grouping}`);
-		loadPhotoset(photoset,{ immediate, childItem})
-			.then(applyLayout({layout,gutter, childItem, childHeight, childWidth,immediate}))
+
+		loadPhotoset(photoset,{ immediate, childItem })
+			.then(calcAspects({immediate, childHeight,childWidth}))
+			.then(calcLayout({layout}))
+			.then(applyLayout(photoset,{childItem,gutter}))
 			.then(callback);
 	});
 	
