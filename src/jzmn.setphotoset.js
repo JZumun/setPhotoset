@@ -125,7 +125,7 @@ const applyLayout = (photoset,{childItem,gutter}) => {
 		widths.forEach(({width,numItems,positioning:{firstColumn,lastColumn,lastRow}},itemIndex)=>{
 			const item = items[itemIndex];
 			item.classList.add("photoset-item");
-			item.classList.remove("photoset-last-column","photoset-last-row","photoset-first-column");
+			item.classList.remove("photoset-last-column","photoset-last-row","photoset-first-column","photoset-loading");
 			item.setAttribute("style",`width: ${width}%;` + ( gutter ? `width: calc(${width/100}*(100% - ${numItems - 1}*(${gutter})));` : "" ));
 			if (firstColumn) item.classList.add("photoset-first-column");
 			if (lastColumn) item.classList.add("photoset-last-column");
