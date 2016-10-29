@@ -3,6 +3,7 @@ const isArray = Array.isArray;
 const noop = ()=>{};
 
 const parseNum = i => parseInt(i,10);
+const arrify = arrable => Array.prototype.slice.call(arrable);
 const arrifyLayoutString = (layoutString) => layoutString.charAt(0) === "[" 
 				? layoutString.replace(/\[([0-9,]*)\]/,"$1").split(",").map(parseNum)
 				: layoutString.split("").map(parseNum);
@@ -55,7 +56,7 @@ const loadPhotoset = (photoset, {immediate, childItem}) => {
 				resolve(photoset);
 			}
 		} 
-		const items = Array.from(photoset.querySelectorAll(childItem));
+		const items = arrify(photoset.querySelectorAll(childItem));
 		let goal = items.length;
 
 		items.forEach((img,i)=> { if (img.complete) {
@@ -90,7 +91,7 @@ const applyLayout = ({layout,gutter,childItem, childHeight, childWidth,immediate
 			});
 
 			let firstWidth = 0;
-			const rowWidths = aspects.map((currAspect,itemIndex)=>{
+			const rowWidths = aspects.forEach((currAspect,itemIndex)=>{
 				let width = 0;
 				if (itemIndex == 0) { 
 					width = firstWidth = 100/aspects.reduce((prev,curr)=>prev + currAspect/curr,0); 
@@ -98,9 +99,9 @@ const applyLayout = ({layout,gutter,childItem, childHeight, childWidth,immediate
 				else { 
 					width =  firstWidth*( aspects[0]/currAspect ); 
 				}
-				return { width, numItems };
+
+				widths.push({width, numItems});
 			});
-			widths.push(...rowWidths);
 
 			return rowEnd;
 		},0);
@@ -136,13 +137,13 @@ const setPhotoset = function(set,{
 	gutter = sanitizeGutter(gutter);
 	if (createSheet) { createStyleSheet({grouping,gutter}); }
 
-	for(let photoset of set) {
+	set.forEach(photoset => {
 		layout = sanitizeLayout(layout || photoset.getAttribute(layoutAttribute));
 		photoset.classList.add("photoset-loading","photoset-container",`photoset-${grouping}`);
 		loadPhotoset(photoset,{ immediate, childItem})
 			.then(applyLayout({layout,gutter, childItem, childHeight, childWidth,immediate}))
 			.then(callback);
-	}
+	});
 	
 	return set;
 }

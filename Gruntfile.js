@@ -9,13 +9,13 @@ module.exports = function (grunt) {
                         standalone: "setPhotoset"
                     },
                     transform: ["rollupify",["babelify",{
-                        presets:["latest"]
+                        presets:["latest"],
                     }]]
                 }
             }
         },
         uglify: {
-            my_target: {
+            development : {
                 files: {
                     'dist/jzmn.setphotoset.min.js': ['dist/jzmn.setphotoset.js']
                 }

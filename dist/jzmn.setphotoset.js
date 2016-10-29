@@ -1,8 +1,6 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.setPhotoset = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 var isString = function isString(thing) {
 	return thing.toString() === thing;
 };
@@ -11,6 +9,9 @@ var noop = function noop() {};
 
 var parseNum = function parseNum(i) {
 	return parseInt(i, 10);
+};
+var arrify = function arrify(arrable) {
+	return Array.prototype.slice.call(arrable);
 };
 var arrifyLayoutString = function arrifyLayoutString(layoutString) {
 	return layoutString.charAt(0) === "[" ? layoutString.replace(/\[([0-9,]*)\]/, "$1").split(",").map(parseNum) : layoutString.split("").map(parseNum);
@@ -76,7 +77,7 @@ var loadPhotoset = function loadPhotoset(photoset, _ref2) {
 				resolve(photoset);
 			}
 		};
-		var items = Array.from(photoset.querySelectorAll(childItem));
+		var items = arrify(photoset.querySelectorAll(childItem));
 		var goal = items.length;
 
 		items.forEach(function (img, i) {
@@ -128,7 +129,7 @@ var applyLayout = function applyLayout(_ref3) {
 			});
 
 			var firstWidth = 0;
-			var rowWidths = aspects.map(function (currAspect, itemIndex) {
+			var rowWidths = aspects.forEach(function (currAspect, itemIndex) {
 				var width = 0;
 				if (itemIndex == 0) {
 					width = firstWidth = 100 / aspects.reduce(function (prev, curr) {
@@ -137,9 +138,9 @@ var applyLayout = function applyLayout(_ref3) {
 				} else {
 					width = firstWidth * (aspects[0] / currAspect);
 				}
-				return { width: width, numItems: numItems };
+
+				widths.push({ width: width, numItems: numItems });
 			});
-			widths.push.apply(widths, _toConsumableArray(rowWidths));
 
 			return rowEnd;
 		}, 0);
@@ -198,32 +199,11 @@ var setPhotoset = function setPhotoset(set) {
 		createStyleSheet({ grouping: grouping, gutter: gutter });
 	}
 
-	var _iteratorNormalCompletion = true;
-	var _didIteratorError = false;
-	var _iteratorError = undefined;
-
-	try {
-		for (var _iterator = set[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-			var photoset = _step.value;
-
-			layout = sanitizeLayout(layout || photoset.getAttribute(layoutAttribute));
-			photoset.classList.add("photoset-loading", "photoset-container", "photoset-" + grouping);
-			loadPhotoset(photoset, { immediate: immediate, childItem: childItem }).then(applyLayout({ layout: layout, gutter: gutter, childItem: childItem, childHeight: childHeight, childWidth: childWidth, immediate: immediate })).then(callback);
-		}
-	} catch (err) {
-		_didIteratorError = true;
-		_iteratorError = err;
-	} finally {
-		try {
-			if (!_iteratorNormalCompletion && _iterator.return) {
-				_iterator.return();
-			}
-		} finally {
-			if (_didIteratorError) {
-				throw _iteratorError;
-			}
-		}
-	}
+	set.forEach(function (photoset) {
+		layout = sanitizeLayout(layout || photoset.getAttribute(layoutAttribute));
+		photoset.classList.add("photoset-loading", "photoset-container", "photoset-" + grouping);
+		loadPhotoset(photoset, { immediate: immediate, childItem: childItem }).then(applyLayout({ layout: layout, gutter: gutter, childItem: childItem, childHeight: childHeight, childWidth: childWidth, immediate: immediate })).then(callback);
+	});
 
 	return set;
 };
