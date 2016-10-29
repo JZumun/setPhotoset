@@ -91,7 +91,7 @@ const calcLayout = ({layout,gutter}) => {
 		layout.reduce( (rowStart,rowLength,layoutIndex, layoutArray) => {
 			const rowEnd = rowStart + rowLength;
 			const rowAspects = aspects.slice(rowStart,rowEnd);
-			const numItems = rowItems.length;
+			const numItems = rowAspects.length;
 
 			let firstWidth = 0;
 			const rowWidths = rowAspects.forEach((currAspect,itemIndex)=>{

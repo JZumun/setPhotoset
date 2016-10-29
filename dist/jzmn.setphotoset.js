@@ -124,7 +124,7 @@ var calcLayout = function calcLayout(_ref4) {
 		layout.reduce(function (rowStart, rowLength, layoutIndex, layoutArray) {
 			var rowEnd = rowStart + rowLength;
 			var rowAspects = aspects.slice(rowStart, rowEnd);
-			var numItems = rowItems.length;
+			var numItems = rowAspects.length;
 
 			var firstWidth = 0;
 			var rowWidths = rowAspects.forEach(function (currAspect, itemIndex) {
