@@ -34,12 +34,12 @@ const createNewStyleSheet = () => {
 
 	return styles;
 }
-const groupings = new Set();
+const groupings = {};
 let styles = document.querySelector("#jzmn-setphotoset-styles");
 const createStyleSheet = ({grouping, gutter}) => {
 	if (!styles) { styles = createNewStyleSheet(); }
-	if (gutter && !groupings.has(grouping)) {
-		groupings.add(grouping);
+	if (gutter && !groupings[grouping]) {
+		groupings[grouping] = gutter;
 		[
 			`.photoset-${grouping} .photoset-item:not(.photoset-last-column) { margin-right: calc(${gutter}); }`,
 			`.photoset-${grouping} .photoset-item:not(.photoset-last-row) { margin-bottom: calc(${gutter}); }`
