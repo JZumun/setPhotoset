@@ -73,7 +73,7 @@ const loadPhotoset = (photoset, {immediate, childItem,childHeight,childWidth}={}
 const calcAspects = ({immediate, childHeight,childWidth}={}) => {
 	return (items) => {
 		return items.map((item,i)=>{
-			if (immediate) {
+			if (!immediate) {
 				return item.naturalHeight/item.naturalWidth
 			} else {
 				const aspect = parseInt(item.getAttribute(childHeight)) / parseInt(item.getAttribute(childWidth))

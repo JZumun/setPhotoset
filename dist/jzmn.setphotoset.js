@@ -106,7 +106,7 @@ var calcAspects = function calcAspects() {
 
 	return function (items) {
 		return items.map(function (item, i) {
-			if (immediate) {
+			if (!immediate) {
 				return item.naturalHeight / item.naturalWidth;
 			} else {
 				var aspect = parseInt(item.getAttribute(childHeight)) / parseInt(item.getAttribute(childWidth));
