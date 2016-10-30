@@ -46,7 +46,7 @@ const createStyleSheet = ({grouping, gutter}) => {
 		].forEach(rule=>styles.sheet.insertRule(rule,styles.sheet.cssRules.length));
 	}
 }
-const loadPhotoset = (photoset, {immediate, childItem,childHeight,childWidth}) => {
+const loadPhotoset = (photoset, {immediate, childItem,childHeight,childWidth}={}) => {
 	return new Promise((resolve,reject) => {
 		const items = arrify(photoset.querySelectorAll(childItem));
 		const complete = _=> resolve(items);
@@ -70,10 +70,10 @@ const loadPhotoset = (photoset, {immediate, childItem,childHeight,childWidth}) =
 	});
 }
 
-const calcAspects = (natural, {childHeight,childWidth}={}) => {
+const calcAspects = ({immediate, childHeight,childWidth}={}) => {
 	return (items) => {
 		return items.map((item,i)=>{
-			if (natural) {
+			if (immediate) {
 				return item.naturalHeight/item.naturalWidth
 			} else {
 				const aspect = parseInt(item.getAttribute(childHeight)) / parseInt(item.getAttribute(childWidth))
@@ -83,7 +83,7 @@ const calcAspects = (natural, {childHeight,childWidth}={}) => {
 	}
 }
 
-const calcLayout = ({layout,gutter}) => {
+const calcLayout = ({layout,gutter}={}) => {
 	return (aspects) => {
 		const numRows = layout.length;
 		const widths = [];
@@ -119,7 +119,7 @@ const calcLayout = ({layout,gutter}) => {
 	}
 }
 
-const applyLayout = (photoset,{childItem,gutter}) => {
+const applyLayout = (photoset,{childItem,gutter}={}) => {
 	const items = arrify(photoset.querySelectorAll(childItem));
 	return (widths) => {
 		widths.forEach(({width,numItems,positioning:{firstColumn,lastColumn,lastRow}},itemIndex)=>{
@@ -159,7 +159,7 @@ const setPhotoset = function(set,{
 		photoset.classList.add("photoset-loading","photoset-container",`photoset-${grouping}`);
 
 		loadPhotoset(photoset,{ immediate, childItem })
-			.then(calcAspects({immediate, childHeight,childWidth}))
+			.then(calcAspects({immediate, childHeight, childWidth}))
 			.then(calcLayout({layout}))
 			.then(applyLayout(photoset,{childItem,gutter}))
 			.then(callback);

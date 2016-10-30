@@ -62,7 +62,9 @@ var createStyleSheet = function createStyleSheet(_ref) {
 		});
 	}
 };
-var loadPhotoset = function loadPhotoset(photoset, _ref2) {
+var loadPhotoset = function loadPhotoset(photoset) {
+	var _ref2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
 	var immediate = _ref2.immediate;
 	var childItem = _ref2.childItem;
 	var childHeight = _ref2.childHeight;
@@ -95,15 +97,16 @@ var loadPhotoset = function loadPhotoset(photoset, _ref2) {
 	});
 };
 
-var calcAspects = function calcAspects(natural) {
-	var _ref3 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+var calcAspects = function calcAspects() {
+	var _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
+	var immediate = _ref3.immediate;
 	var childHeight = _ref3.childHeight;
 	var childWidth = _ref3.childWidth;
 
 	return function (items) {
 		return items.map(function (item, i) {
-			if (natural) {
+			if (immediate) {
 				return item.naturalHeight / item.naturalWidth;
 			} else {
 				var aspect = parseInt(item.getAttribute(childHeight)) / parseInt(item.getAttribute(childWidth));
@@ -113,7 +116,9 @@ var calcAspects = function calcAspects(natural) {
 	};
 };
 
-var calcLayout = function calcLayout(_ref4) {
+var calcLayout = function calcLayout() {
+	var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
 	var layout = _ref4.layout;
 	var gutter = _ref4.gutter;
 
@@ -153,7 +158,9 @@ var calcLayout = function calcLayout(_ref4) {
 	};
 };
 
-var applyLayout = function applyLayout(photoset, _ref5) {
+var applyLayout = function applyLayout(photoset) {
+	var _ref5 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
 	var childItem = _ref5.childItem;
 	var gutter = _ref5.gutter;
 
