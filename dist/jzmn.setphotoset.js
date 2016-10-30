@@ -69,32 +69,32 @@ var loadPhotoset = function loadPhotoset(photoset) {
 	var childItem = _ref2.childItem;
 	var childHeight = _ref2.childHeight;
 	var childWidth = _ref2.childWidth;
+	var callback = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : noop;
 
-	return new Promise(function (resolve, reject) {
-		var items = arrify(photoset.querySelectorAll(childItem));
-		var complete = function complete(_) {
-			return resolve(items);
-		};
-		var goal = items.length;
 
-		if (immediate) {
+	var items = arrify(photoset.querySelectorAll(childItem));
+	var complete = function complete(_) {
+		return callback(items);
+	};
+	var goal = items.length;
+
+	if (immediate) {
+		complete();
+	};
+
+	var incrementLoaded = function incrementLoaded(evt) {
+		if (evt.target && evt.target.matches(childItem) && --goal === 0) {
 			complete();
-		};
+		}
+	};
 
-		var incrementLoaded = function incrementLoaded(evt) {
-			if (evt.target && evt.target.matches(childItem) && --goal === 0) {
-				complete();
-			}
-		};
-
-		items.forEach(function (img, i) {
-			if (img.complete) {
-				if (--goal === 0) complete();
-			}
-		});
-		photoset.addEventListener("load", incrementLoaded, true);
-		photoset.addEventListener("error", incrementLoaded, true);
+	items.forEach(function (img, i) {
+		if (img.complete) {
+			if (--goal === 0) complete();
+		}
 	});
+	photoset.addEventListener("load", incrementLoaded, true);
+	photoset.addEventListener("error", incrementLoaded, true);
 };
 
 var calcAspects = function calcAspects() {
@@ -226,7 +226,12 @@ var setPhotoset = function setPhotoset(set) {
 		layout = sanitizeLayout(layout || photoset.getAttribute(layoutAttribute));
 		photoset.classList.add("photoset-loading", "photoset-container", "photoset-" + grouping);
 
-		loadPhotoset(photoset, { immediate: immediate, childItem: childItem }).then(calcAspects({ immediate: immediate, childHeight: childHeight, childWidth: childWidth })).then(calcLayout({ layout: layout })).then(applyLayout(photoset, { childItem: childItem, gutter: gutter })).then(callback);
+		loadPhotoset(photoset, { immediate: immediate, childItem: childItem }, function (items) {
+			var aspects = calcAspects({ immediate: immediate, childHeight: childHeight, childWidth: childWidth })(items);
+			var layouting = calcLayout({ layout: layout })(aspects);
+			applyLayout(photoset, { childItem: childItem, gutter: gutter })(layouting);
+			callback(photoset);
+		});
 	});
 
 	return set;

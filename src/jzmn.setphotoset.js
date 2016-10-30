@@ -46,10 +46,10 @@ const createStyleSheet = ({grouping, gutter}) => {
 		].forEach(rule=>styles.sheet.insertRule(rule,styles.sheet.cssRules.length));
 	}
 }
-const loadPhotoset = (photoset, {immediate, childItem,childHeight,childWidth}={}) => {
-	return new Promise((resolve,reject) => {
+const loadPhotoset = (photoset, {immediate, childItem,childHeight,childWidth}={},callback=noop) => {
+
 		const items = arrify(photoset.querySelectorAll(childItem));
-		const complete = _=> resolve(items);
+		const complete = _=> callback(items);
 		let goal = items.length;
 
 		if (immediate) { complete() };
@@ -59,15 +59,12 @@ const loadPhotoset = (photoset, {immediate, childItem,childHeight,childWidth}={}
 				complete();
 			}
 		} 
-		
-		
 
 		items.forEach((img,i)=> { if (img.complete) {
 			if (--goal === 0) complete();
 		}});
 		photoset.addEventListener("load",incrementLoaded,true);
 		photoset.addEventListener("error",incrementLoaded,true);
-	});
 }
 
 const calcAspects = ({immediate, childHeight,childWidth}={}) => {
@@ -158,11 +155,12 @@ const setPhotoset = function(set,{
 		layout = sanitizeLayout(layout || photoset.getAttribute(layoutAttribute));
 		photoset.classList.add("photoset-loading","photoset-container",`photoset-${grouping}`);
 
-		loadPhotoset(photoset,{immediate, childItem })
-			.then(calcAspects({immediate, childHeight, childWidth}))
-			.then(calcLayout({layout}))
-			.then(applyLayout(photoset,{childItem, gutter}))
-			.then(callback);
+		loadPhotoset(photoset,{immediate, childItem },(items)=>{
+			const aspects = calcAspects({immediate, childHeight, childWidth})(items);
+			const layouting = calcLayout({layout})(aspects);
+			applyLayout(photoset,{childItem, gutter})(layouting);
+			callback(photoset);
+		});
 	});
 	
 	return set;
