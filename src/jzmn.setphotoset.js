@@ -122,7 +122,7 @@ const calcLayout = ({layout,gutter}={}) => {
 const applyLayout = (photoset,{childItem,gutter}={}) => {
 	const items = arrify(photoset.querySelectorAll(childItem));
 	return (widths) => {
-		widths.forEach(({width,numItems,positioning:{firstColumn,lastColumn,lastRow}},itemIndex)=>{
+		widths.forEach(({width,numItems,positioning:{firstColumn,lastColumn,lastRow}}={positioning:{}},itemIndex)=>{
 			const item = items[itemIndex];
 			item.classList.add("photoset-item");
 			item.classList.remove("photoset-last-column","photoset-last-row","photoset-first-column");
@@ -158,10 +158,10 @@ const setPhotoset = function(set,{
 		layout = sanitizeLayout(layout || photoset.getAttribute(layoutAttribute));
 		photoset.classList.add("photoset-loading","photoset-container",`photoset-${grouping}`);
 
-		loadPhotoset(photoset,{ immediate, childItem })
+		loadPhotoset(photoset,{immediate, childItem })
 			.then(calcAspects({immediate, childHeight, childWidth}))
 			.then(calcLayout({layout}))
-			.then(applyLayout(photoset,{childItem,gutter}))
+			.then(applyLayout(photoset,{childItem, gutter}))
 			.then(callback);
 	});
 	

@@ -166,13 +166,16 @@ var applyLayout = function applyLayout(photoset) {
 
 	var items = arrify(photoset.querySelectorAll(childItem));
 	return function (widths) {
-		widths.forEach(function (_ref6, itemIndex) {
+		widths.forEach(function () {
+			var _ref6 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { positioning: {} };
+
 			var width = _ref6.width;
 			var numItems = _ref6.numItems;
 			var _ref6$positioning = _ref6.positioning;
 			var firstColumn = _ref6$positioning.firstColumn;
 			var lastColumn = _ref6$positioning.lastColumn;
 			var lastRow = _ref6$positioning.lastRow;
+			var itemIndex = arguments[1];
 
 			var item = items[itemIndex];
 			item.classList.add("photoset-item");
