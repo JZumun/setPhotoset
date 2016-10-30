@@ -77,7 +77,7 @@ const calcAspects = ({immediate, childHeight,childWidth}={}) => {
 				return item.naturalHeight/item.naturalWidth
 			} else {
 				const aspect = parseInt(item.getAttribute(childHeight)) / parseInt(item.getAttribute(childWidth))
-				return isNan(aspect) ? 1 : aspect;
+				return isNaN(aspect) ? 1 : aspect;
 			}
 		})
 	}
