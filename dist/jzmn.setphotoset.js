@@ -106,12 +106,13 @@ var calcAspects = function calcAspects() {
 
 	return function (items) {
 		return items.map(function (item, i) {
+			var aspect = 1;
 			if (!immediate) {
-				return item.naturalHeight / item.naturalWidth;
+				aspect = item.naturalHeight / item.naturalWidth;
 			} else {
-				var aspect = parseInt(item.getAttribute(childHeight)) / parseInt(item.getAttribute(childWidth));
-				return isNaN(aspect) ? 1 : aspect;
+				aspect = parseInt(item.getAttribute(childHeight)) / parseInt(item.getAttribute(childWidth));
 			}
+			return isNaN(aspect) ? 1 : aspect;
 		});
 	};
 };
