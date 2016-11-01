@@ -77,7 +77,7 @@ img:before {
 }
 
 img:after {  
-  content: "\f127" " Broken Image (" attr(alt) ")";
+  content: "\f127" " Broken Image '" attr(alt) "'";
   display: block;
   font-size: 0.75em;
   font-style: normal;
