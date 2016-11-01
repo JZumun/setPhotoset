@@ -72,7 +72,8 @@ img:before {
   left: 0;
   height: 100%;
   width: 100%;
-  border-radius: 5px;
+  background: #f2f0f0;
+  border: 1px dashed #d4cfc9;
 }
 
 img:after {  
