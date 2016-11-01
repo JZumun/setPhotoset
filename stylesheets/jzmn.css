@@ -84,10 +84,9 @@ img:after {
   font-weight:lighter;
 
   position: absolute;
-  top: 50%;
-  margin-top:-1.5em;
-  left: 0;
-  padding: 0.5em 1.75rem;
+	top: -1.5em;
+	margin-top: 50%;
+	left: 0;
   width: 100%;
   text-align: center;
 }
