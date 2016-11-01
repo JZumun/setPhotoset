@@ -191,7 +191,7 @@ td {
 	opacity:0.25;
 }
 
-.photoset.photoset-loading:before {
+.photoset.photoset-loading:after {
     content: "Loading...";
     color: #14100f;
     background: #f2f0f0;
