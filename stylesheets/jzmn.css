@@ -165,7 +165,9 @@ td {
     content: "Loading...";
     color: #14100f;
     background: #f2f0f0;
+    display:block;
     position: absolute;
+    padding:0.5em;
     left:0;
     top:0;
 }
