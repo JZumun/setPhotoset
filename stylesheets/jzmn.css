@@ -155,9 +155,19 @@ td {
 }
 
 .photoset-loading {
+	position:relative;
 	overflow-y:hidden;
 	max-height:10em;
 	opacity:0.25;
+}
+
+.photoset.photoset-loading:before {
+    content: "Loading...";
+    color: #14100f;
+    background: #f2f0f0;
+    position: absolute;
+    left:0;
+    top:0;
 }
 
 td.data-type {
