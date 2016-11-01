@@ -57,8 +57,37 @@ iframe,object,embed,img {
 	width:100%;
 	margin:auto; 
 }
+
 img {
 	height: auto;
+	min-height: 50px;
+	position:relative;
+}
+img:before {  
+  content: " ";
+  display: block;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+}
+
+img:after {  
+  content: "\f127" " Broken Image (" attr(alt) ")";
+  display: block;
+  font-size: 0.75em;
+  font-style: normal;
+  font-weight:lighter;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.5em 1.75rem;
+  width: 100%;
+  text-align: center;
 }
 
 /*Basics*/
