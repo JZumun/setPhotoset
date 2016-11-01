@@ -71,20 +71,21 @@ img:before {
   top: 0;
   left: 0;
   height: 100%;
+  padding-bottom:100%;
   width: 100%;
-  background: #f2f0f0;
-  border: 1px dashed #d4cfc9;
+  background: #d4cfc9;
 }
 
 img:after {  
-  content: "\f127" " Broken Image '" attr(alt) "'";
+  content: "\f127" " Broken Image ";
   display: block;
   font-size: 0.75em;
   font-style: normal;
   font-weight:lighter;
 
   position: absolute;
-  top: 0;
+  top: 50%;
+  margin-top:-1.5em;
   left: 0;
   padding: 0.5em 1.75rem;
   width: 100%;
