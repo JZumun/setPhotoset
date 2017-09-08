@@ -8,11 +8,11 @@ Installation
 ------------
 For node:
 ```bash
-	//using yarn
-	yarn add set-photoset
+//using yarn
+yarn add set-photoset
 
-	//using npm
-	npm install set-photoset --save
+//using npm
+npm install set-photoset --save
 ```
 For the browser, [download the zip file](https://github.com/JZumun/setPhotoset/zipball/master).
 
@@ -20,9 +20,9 @@ Basic Usage
 -----------
 The general format of `jzmn.setPhotoset` is shown below:
 ```javascript
-	setPhotoset(element,userOptions,grouping)
+setPhotoset(element,userOptions,grouping)
 ```
-*`element`* refers to the element node, nodelist of elements, or CSS-selector string of the photosets you want to set. 
+*`element`* refers to the element node, nodelist of elements, or CSS-selector string of the photosets you want to set.
 
 *`userOptions`* is an optional object containing customizable options for the function (listed below).
 
