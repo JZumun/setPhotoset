@@ -4,11 +4,23 @@ jzmn.setPhotoset
 
 Like most of my coding experiments, it is encapsulated in the `jzmn` namespace. This largely means nothing.
 
+Installation
+------------
+For node:
+```bash
+	//using yarn
+	yarn add set-photoset
+
+	//using npm
+	npm install set-photoset --save
+```
+For the browser, [download the zip file](https://github.com/JZumun/setPhotoset/zipball/master).
+
 Basic Usage
 -----------
 The general format of `jzmn.setPhotoset` is shown below:
 ```javascript
-jzmn.setPhotoset(element,userOptions,grouping)
+	setPhotoset(element,userOptions,grouping)
 ```
 *`element`* refers to the element node, nodelist of elements, or CSS-selector string of the photosets you want to set. 
 
