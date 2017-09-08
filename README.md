@@ -8,10 +8,10 @@ Installation
 ------------
 For node:
 ```bash
-//using yarn
+#using yarn
 yarn add set-photoset
 
-//using npm
+#using npm
 npm install set-photoset --save
 ```
 For the browser, [download the zip file](https://github.com/JZumun/setPhotoset/zipball/master).
