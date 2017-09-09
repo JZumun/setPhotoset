@@ -1,8 +1,7 @@
-jzmn.setPhotoset
+setPhotoset
 ================
-**`jzmn.setPhotoset`** is a javascript function for beautifully resizing images in a photoset, without cropping or aspect-ratio distortion, such that all images in a row are of the same height.`jzmn.setPhotoset` makes use of percentage widths, so that the photoset can work for all sizes, and can be resized without problem.
+**`setPhotoset`** is a javascript function for beautifully resizing images in a photoset, without cropping or aspect-ratio distortion, such that all images in a row are of the same height.`setPhotoset` makes use of percentage widths and the css calc function, so that the photoset can work for all sizes, and can be resized without problem.
 
-Like most of my coding experiments, it is encapsulated in the `jzmn` namespace. This largely means nothing.
 
 Installation
 ------------
@@ -18,7 +17,7 @@ For the browser, [download the zip file](https://github.com/JZumun/setPhotoset/z
 
 Basic Usage
 -----------
-The general format of `jzmn.setPhotoset` is shown below:
+The general format of `setPhotoset` is shown below:
 ```javascript
 setPhotoset(element,userOptions,grouping)
 ```
